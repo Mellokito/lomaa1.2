@@ -8,7 +8,7 @@ Route::prefix('administration')->group(function () {
     Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
     // Dashbord
-    Route::get('/home', 'administration\HomeController@index')->name('dashboard.home');
+    Route::get('home', 'administration\HomeController@index')->name('dashboard.home');
 
     //Changer mot de passe
     Route::get('/compte', 'administration\CompteController@index')->name('compte.index');
