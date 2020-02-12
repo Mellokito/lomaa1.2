@@ -1,0 +1,35 @@
+.menuu{
+    color: #eee !important;
+}
+
+.headingstyle{
+    font-size: 16px !important;
+    font-weight: bold !important;
+    }
+
+
+.btn-focus {
+    color: #fff;
+    background-color: #5867dd !important;
+    border-color: #36a3f7 !important;
+}
+
+.btn-outline-focus.m-btn--air,
+.btn-focus.m-btn--air,
+.m-btn--gradient-from-focus.m-btn--air {
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    }
+
+    .btn-outline-focus.m-btn--air.focus,
+    .btn-outline-focus.m-btn--air:focus,
+    .btn-outline-focus.m-btn--air:hover,
+    .btn-focus.m-btn--air.focus,
+    .btn-focus.m-btn--air:focus,
+    .btn-focus.m-btn--air:hover,
+    .m-btn--gradient-from-focus.m-btn--air.focus,
+    .m-btn--gradient-from-focus.m-btn--air:focus,
+    .m-btn--gradient-from-focus.m-btn--air:hover {
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+        }

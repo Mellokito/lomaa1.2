@@ -1,1 +1,2 @@
-# lomaa1.2
+# myProject
+lmo
