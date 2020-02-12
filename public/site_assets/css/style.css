@@ -125,7 +125,7 @@ a:hover {
 .theme-btn {
     font-size: 16px;
     text-transform: uppercase;
-    background: #f1ae44;
+    background: #5b4b4a;
     color: #fff;
     font-weight: 600;
     /* letter-spacing: 1px; */
@@ -152,7 +152,7 @@ a:hover {
     top: 0;
     left: -1px;
     z-index: -1;
-    background: #f1ae44;
+    background: #d82439;
     -webkit-transform-origin: bottom left;
     transform-origin: bottom left;
     -webkit-transform: skew(12deg,0deg);
@@ -928,7 +928,7 @@ a:hover {
 .header-area2 .header-top .ostion-top-wrap .ostion-menu .ostion-menu-content .navigation-top .main-navigation ul li a:hover,
 .header-area2 .header-top .ostion-top-wrap .ostion-menu .ostion-menu-content .navigation-top .main-navigation ul li.active> a:hover,
 .header-area2 .header-top .ostion-top-wrap .ostion-menu .ostion-menu-content .navigation-top .main-navigation ul li .dropdown-menu-item li a:hover{
-    color: #f1ae44;
+    color: #d82439;
 }
 .header-area2 .header-top .ostion-top-wrap .ostion-menu .ostion-menu-content .navigation-top .main-navigation ul li a:after {
     background-color: #f1ae44;
