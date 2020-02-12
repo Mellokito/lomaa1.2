@@ -896,10 +896,10 @@ a:hover {
     left: 0;
 }
 .header-area2 .header-top {
-    background-color: #582901c9;
+    background-color: #ffffffc9;
 }
 .header-area2 .header-top.header-fixed {
-    background-color: #424242;
+    background-color: #fff;
 }
 .header-area2 .header-top-action {
     background-color: #424242;
@@ -923,7 +923,7 @@ a:hover {
 
 .header-area2 .header-top .ostion-top-wrap .ostion-menu .ostion-menu-content .navigation-top .main-navigation ul li a,
 .header-area2 .header-top .ostion-top-wrap .ostion-menu .ostion-menu-content .navigation-top .main-navigation ul li.active> a{
-    color: #fff;
+    color: #424242;
 }
 .header-area2 .header-top .ostion-top-wrap .ostion-menu .ostion-menu-content .navigation-top .main-navigation ul li a:hover,
 .header-area2 .header-top .ostion-top-wrap .ostion-menu .ostion-menu-content .navigation-top .main-navigation ul li.active> a:hover,

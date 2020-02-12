@@ -63,7 +63,7 @@
                         <div class="logo-action d-flex align-items-center">
                             <div class="ostion-logo ml-auto">
                                 <a href="{{ route('site.index') }}">
-                                    <img style="height: 120px;" src="{{ asset('site_assets/images/logo2.png')}} " alt="Lomaa" title="Lomaa">
+                                    <img style="height: 120px;" src="{{ asset('site_assets/images/about-img2.png')}} " alt="Lomaa" title="Lomaa">
                                 </a>
                             </div><!-- .ostion-logo -->
                         </div><!-- end logo-action -->
