@@ -159,8 +159,10 @@ class ArticleController extends Controller
         if (!$article) {
             return redirect('404');
         }
-
+       
         $data['article'] = $article;
+
+        //  $article->notification()->attach(Auth::user()->id);
 
         return view('administration.articles.article.show',$data);
     }
@@ -428,4 +430,5 @@ class ArticleController extends Controller
             return redirect()->back()->with('success', 'Opération effectuée avec succès');
         }
     }
+
 }

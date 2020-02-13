@@ -185,9 +185,11 @@
 																	
 																<a class="nav-link m-tabs__link active" data-toggle="tab" href="#notifications_article" role="tab">
 																	Articles
+																	@if($total_article > 0)
 																	<span class="m-badge m-badge--success" style="margin-left:15px">
 																		{{ $total_article }}
 																	</span>
+																	@endif
 																</a>
 															</li>
 															<li class="nav-item m-tabs__item">
@@ -208,9 +210,11 @@
 																	@endphp
 																<a class="nav-link m-tabs__link" data-toggle="tab" href="#notifications_events" role="tab">
 																	Evenements
+																	@if($total_evenement > 0)
 																	<span class="m-badge m-badge--success" style="margin-left:15px">
 																		{{ $total_evenement }}
 																	</span>
+																	@endif
 																</a>
 															</li>
 															{{-- <li class="nav-item m-tabs__item">
@@ -223,19 +227,39 @@
 																<div class="m-scrollable" data-scrollable="true" data-height="250" data-mobile-height="200">
 																	<div class="m-list-timeline m-list-timeline--skin-light">
 																		<div class="m-list-timeline__items">
-																			@foreach($article_alertes as $article_alerte)
+																			@if ($article_alertes->count() == 0)
 																			<div class="m-list-timeline__item">
 																				<span class="m-list-timeline__badge -m-list-timeline__badge--state-success"></span>
 																				<span class="m-list-timeline__text">
-																					<a href="{{route('article.show',$article_alerte->slug) }}" class="m-list-timeline__text" style="font-size:10px">
-																					{{ substr($article_alerte->titre,0,100) }} &nbsp;&nbsp; 
-																					<span class="m-badge m-badge--danger m-badge--wide" style="padding-left:2px;padding-right:2px;">{{ $article_alerte->categorie->nom }}</span>
-																					</a>
-																				</span>
-																				<span class="m-list-timeline__time" style="font-size:10px">
-																					{{ $article_alerte->date_creation }}
+																					Aucune notification disponible
 																				</span>
 																			</div>
+																			@endif
+																			@foreach($article_alertes as $article_alerte)
+																			@php
+																				$notification = false;
+																				$article_notification = App\Article::where('id',$article_alerte->id_article)->first();
+																				
+																				foreach ($article_notification->notification as $value) {
+																					if($value->user_article_notification->user_id == Auth::user()->id){
+																						$notification = true;
+																					}
+																				}
+																			@endphp
+																				@if (!$notification)
+																				<div class="m-list-timeline__item">
+																					<span class="m-list-timeline__badge -m-list-timeline__badge--state-success"></span>
+																					<span class="m-list-timeline__text">
+																						<a href="{{route('article.show',$article_alerte->slug) }}" class="m-list-timeline__text" style="font-size:10px">
+																						{{ substr($article_alerte->titre,0,100) }} &nbsp;&nbsp; 
+																						<span class="m-badge m-badge--danger m-badge--wide" style="padding-left:2px;padding-right:2px;">{{ $article_alerte->categorie->nom }}</span>
+																						</a>
+																					</span>
+																					<span class="m-list-timeline__time" style="font-size:10px">
+																						{{ $article_alerte->date_creation }}
+																					</span>
+																				</div>
+																				@endif
 																			@endforeach
 																		</div>
 																	</div>
@@ -245,19 +269,40 @@
 																<div class="m-scrollable" data-scrollable="true" data-height="250" data-mobile-height="200">
 																	<div class="m-list-timeline m-list-timeline--skin-light">
 																		<div class="m-list-timeline__items">
-																			@foreach($evenement_alertes as $evenement_alerte)
+																			@if ($evenement_alertes->count() == 0)
 																			<div class="m-list-timeline__item">
 																				<span class="m-list-timeline__badge -m-list-timeline__badge--state-success"></span>
 																				<span class="m-list-timeline__text">
-																					<a href="{{route('evenement.show',$evenement_alerte->slug) }}" class="m-list-timeline__text" style="font-size:10px">
-																					{{ substr($evenement_alerte->titre,0,100) }} &nbsp;&nbsp;
-																					<span class="m-badge m-badge--danger m-badge--wide" style="padding-left:2px;padding-right:2px;">{{ $evenement_alerte->categorie->nom }}</span>
-																					</a>
-																				</span>
-																				<span class="m-list-timeline__time" style="font-size:10px">
-																					{{ $article_alerte->date_creation }}
+																					Aucune notification disponible
 																				</span>
 																			</div>
+																			@endif
+
+																			@foreach($evenement_alertes as $evenement_alerte)
+																			@php
+																				$notification = false;
+																				$evenement_notification = App\Evenement::where('id',$evenement_alerte->id_evenement)->first();
+																				
+																				foreach ($evenement_notification->notification as $value) {
+																					if($value->user_evenement_notification->user_id == Auth::user()->id){
+																						$notification = true;
+																					}
+																				}
+																			@endphp
+																				@if (!$notification)
+																				<div class="m-list-timeline__item">
+																					<span class="m-list-timeline__badge -m-list-timeline__badge--state-success"></span>
+																					<span class="m-list-timeline__text">
+																						<a href="{{route('evenement.show',$evenement_alerte->slug) }}" class="m-list-timeline__text" style="font-size:10px">
+																						{{ substr($evenement_alerte->titre,0,100) }} &nbsp;&nbsp;
+																						<span class="m-badge m-badge--danger m-badge--wide" style="padding-left:2px;padding-right:2px;">{{ $evenement_alerte->categorie->nom }}</span>
+																						</a>
+																					</span>
+																					<span class="m-list-timeline__time" style="font-size:10px">
+																						{{ $evenement_alerte->date_creation }}
+																					</span>
+																				</div>
+																				@endif
 																			@endforeach
 																		</div>
 																	</div>
