@@ -143,7 +143,7 @@
 
 									{{-- Zone Notification  --}}
 									@if(Auth::user()->role == 'Super Administrateur' || Auth::user()->role == 'Administrateur')
-									<li class="m-nav__item m-topbar__notifications m-topbar__notifications--img m-dropdown m-dropdown--large m-dropdown--header-bg-fill m-dropdown--arrow m-dropdown--align-center 	m-dropdown--mobile-full-width"
+									<li class="m-nav__item m-topbar__notifications m-topbar__notifications--img m-dropdown m-dropdown--large m-dropdown--header-bg-fill m-dropdown--arrow m-dropdown--align-right 	m-dropdown--mobile-full-width"
 										m-dropdown-toggle="click" m-dropdown-persistent="1">
 										<a href="#" class="m-nav__link m-dropdown__toggle"
 											id="m_topbar_notification_icon">
@@ -153,10 +153,10 @@
 											
 											<span class="m-nav__link-icon"><i class="flaticon-alarm"></i></span>
 										</a>
-										<div class="m-dropdown__wrapper">
-											<span class="m-dropdown__arrow m-dropdown__arrow--center"></span>
+										<div style="width:500px !important" class="m-dropdown__wrapper">
+											<span class="m-dropdown__arrow m-dropdown__arrow--right"></span>
 											<div class="m-dropdown__inner">
-												<div class="m-dropdown__header m--align-center"
+												<div class="m-dropdown__header m--align-right"
 													style="background: url({{ asset('assets/app/media/img/misc/notification_bg.jpg')}} ); background-size: cover;">
 
 													<span class="m-dropdown__header-subtitle">
@@ -214,12 +214,12 @@
 																	</span>
 																</a>
 															</li>
-															<li class="nav-item m-tabs__item">
+															{{-- <li class="nav-item m-tabs__item">
 																<a class="nav-link m-tabs__link" data-toggle="tab" href="#notifications_comments" role="tab">Comments</a>
-															</li>
+															</li> --}}
 
 														</ul>
-														<div class="tab-content">
+														<div class="tab-content" dir="rtl">
 															<div class="tab-pane active" id="notifications_article" role="tabpanel">
 																<div class="m-scrollable" data-scrollable="true" data-height="250" data-mobile-height="200">
 																	<div class="m-list-timeline m-list-timeline--skin-light">
@@ -228,11 +228,11 @@
 																			<div class="m-list-timeline__item">
 																				<span class="m-list-timeline__badge -m-list-timeline__badge--state-success"></span>
 																				<span class="m-list-timeline__text">
-																					<a href="{{route('article.show',$article_alerte->slug) }}">
-																					{{ $article_alerte->titre }}
+																					<a href="{{route('article.show',$article_alerte->slug) }}" class="m-list-timeline__text" style="font-size:10px">
+																					{{ substr($article_alerte->titre,0,100) }} - <span style="color:red;">{{ $article_alerte->categorie->nom }}</span> 
 																					</a>
 																				</span>
-																				<span class="m-list-timeline__time">
+																				<span class="m-list-timeline__time" style="font-size:10px">
 																					{{ $article_alerte->date_creation }}
 																				</span>
 																			</div>
@@ -247,13 +247,13 @@
 																		<div class="m-list-timeline__items">
 																			@foreach($evenement_alertes as $evenement_alerte)
 																			<div class="m-list-timeline__item">
-																				<span class="m-list-timeline__badge m-list-timeline__badge--state1-success"></span>
-																				<a href="" class="m-list-timeline__text">
-																					<a href="{{route('evenement.show',$evenement_alerte->slug) }}">
-																						{{ $evenement_alerte->titre }}
+																				<span class="m-list-timeline__badge -m-list-timeline__badge--state-success"></span>
+																				<span class="m-list-timeline__text">
+																					<a href="{{route('evenement.show',$evenement_alerte->slug) }}" class="m-list-timeline__text" style="font-size:10px">
+																					{{ substr($evenement_alerte->titre,0,100) }} - {{ $evenement_alerte->categorie->nom }}
 																					</a>
-																				</a>
-																				<span class="m-list-timeline__time">
+																				</span>
+																				<span class="m-list-timeline__time" style="font-size:10px">
 																					{{ $article_alerte->date_creation }}
 																				</span>
 																			</div>
@@ -262,14 +262,14 @@
 																	</div>
 																</div>
 															</div>
-															<div class="tab-pane" id="notifications_comments" role="tabpanel">
+															{{-- <div class="tab-pane" id="notifications_comments" role="tabpanel">
 																<div class="m-stack m-stack--ver m-stack--general" style="min-height: 180px;">
 																	<div class="m-stack__item m-stack__item--center m-stack__item--middle">
 																		<span class="">All caught up!<br>No new
 																			logs.</span>
 																	</div>
 																</div>
-															</div>
+															</div> --}}
 														</div>
 													</div>
 												</div>
@@ -279,7 +279,7 @@
 
 									{{-- Zone raccourçis --}}
 
-									<li class="m-nav__item m-topbar__quick-actions m-topbar__quick-actions--img m-dropdown m-dropdown--large m-dropdown--header-bg-fill m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push m-dropdown--mobile-full-width m-dropdown--skin-light"
+									{{-- <li class="m-nav__item m-topbar__quick-actions m-topbar__quick-actions--img m-dropdown m-dropdown--large m-dropdown--header-bg-fill m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push m-dropdown--mobile-full-width m-dropdown--skin-light"
 										m-dropdown-toggle="click">
 										<a href="#" class="m-nav__link m-dropdown__toggle">
 											<span
@@ -331,7 +331,7 @@
 												</div>
 											</div>
 										</div>
-									</li>
+									</li> --}}
 									@endif
 									<li class="m-nav__item m-topbar__user-profile m-topbar__user-profile--img  m-dropdown m-dropdown--medium m-dropdown--arrow m-dropdown--header-bg-fill m-dropdown--align-right m-dropdown--mobile-full-width m-dropdown--skin-light"
 										m-dropdown-toggle="click">
