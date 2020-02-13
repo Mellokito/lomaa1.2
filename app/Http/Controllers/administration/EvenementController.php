@@ -160,6 +160,8 @@ class EvenementController extends Controller
 
         $data['evenement'] = $evenement;
 
+        $evenement->notification()->sync(Auth::user()->id);
+
         return view('administration.evenements.evenement.show',$data);
     }
 

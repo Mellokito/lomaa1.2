@@ -162,7 +162,7 @@ class ArticleController extends Controller
        
         $data['article'] = $article;
 
-        //  $article->notification()->attach(Auth::user()->id);
+        $article->notification()->sync(Auth::user()->id);
 
         return view('administration.articles.article.show',$data);
     }

@@ -140,14 +140,46 @@
 							class="m-topbar  m-stack m-stack--ver m-stack--general m-stack--fluid">
 							<div class="m-stack__item m-topbar__nav-wrapper">
 								<ul class="m-topbar__nav m-nav m-nav--inline">
+									{{-- total articles --}}
+									@php $count_article = 0; @endphp
+									@foreach($article_alertes as $article_alerte)
 
+										@php 
+											$article_count_n = App\Article::where('id',$article_alerte->id_article)->first();
+											foreach ($article_count_n->notification as $value) {
+												if($value->user_article_notification->user_id == Auth::user()->id && $value->user_article_notification->article_id == $article_alerte->id_article){
+													$count_article = $count_article + 1;
+												}
+											}
+										@endphp
+									@endforeach
+									@php 
+									$total_article = $article_alertes->count() - $count_article;
+									@endphp
+
+									{{-- total evenement --}}
+									@php $count_evenement = 0; @endphp
+									@foreach($evenement_alertes as $evenement_alerte)
+
+										@php 
+											$evenement_count_n = App\Evenement::where('id',$evenement_alerte->id_evenement)->first();
+											foreach ($evenement_count_n->notification as $value) {
+												if($value->user_evenement_notification->user_id == Auth::user()->id && $value->user_evenement_notification->evenement_id == $evenement_alerte->id_evenement){
+													$count_evenement = $count_evenement + 1;
+												}
+											}
+										@endphp
+									@endforeach
+									@php 
+									$total_evenement = $evenement_alertes->count() - $count_evenement;
+									@endphp
 									{{-- Zone Notification  --}}
 									@if(Auth::user()->role == 'Super Administrateur' || Auth::user()->role == 'Administrateur')
 									<li class="m-nav__item m-topbar__notifications m-topbar__notifications--img m-dropdown m-dropdown--large m-dropdown--header-bg-fill m-dropdown--arrow m-dropdown--align-right 	m-dropdown--mobile-full-width"
 										m-dropdown-toggle="click" m-dropdown-persistent="1">
 										<a href="#" class="m-nav__link m-dropdown__toggle"
 											id="m_topbar_notification_icon">
-											@if($article_alertes->count() > 0 || $evenement_alertes->count() > 0)
+											@if($total_article > 0 || $total_evenement > 0)
 												<span class="m-nav__link-badge m-badge m-badge--dot m-badge--dot-small m-badge--danger"></span>
 											@endif
 											
@@ -167,23 +199,7 @@
 													<div class="m-dropdown__content">
 														<ul class="nav nav-tabs m-tabs m-tabs-line m-tabs-line--brand" role="tablist" dir="rtl" style="padding-right: 0px;">
 															<li class="nav-item m-tabs__item">
-																	@php $count_article = 0; @endphp
-																	@foreach($article_alertes as $article_alerte)
-
-																		@php 
-																			$article_count_n = App\Article::where('id',$article_alerte->id_article)->first();
-																			foreach ($article_count_n->notification as $value) {
-																				if($value->user_article_notification->user_id == Auth::user()->id && $value->user_article_notification->article_id == $article_alerte->id_article){
-																					$count_article = $count_article + 1;
-																				}
-																			}
-																		@endphp
-																	@endforeach
-																	@php 
-																	$total_article = $article_alertes->count() - $count_article;
-																	@endphp
-																	
-																<a class="nav-link m-tabs__link active" data-toggle="tab" href="#notifications_article" role="tab">
+																<a class="nav-link m-tabs__link active" data-toggle="tab" href="#notifications_article" role="tab" style="padding-left: 15px;">
 																	Articles
 																	@if($total_article > 0)
 																	<span class="m-badge m-badge--success" style="margin-left:15px">
@@ -193,22 +209,7 @@
 																</a>
 															</li>
 															<li class="nav-item m-tabs__item">
-																@php $count_evenement = 0; @endphp
-																	@foreach($evenement_alertes as $evenement_alerte)
-
-																		@php 
-																			$evenement_count_n = App\Evenement::where('id',$evenement_alerte->id_evenement)->first();
-																			foreach ($evenement_count_n->notification as $value) {
-																				if($value->user_evenement_notification->user_id == Auth::user()->id && $value->user_evenement_notification->evenement_id == $evenement_alerte->id_evenement){
-																					$count_evenement = $count_evenement + 1;
-																				}
-																			}
-																		@endphp
-																	@endforeach
-																	@php 
-																	$total_evenement = $evenement_alertes->count() - $count_evenement;
-																	@endphp
-																<a class="nav-link m-tabs__link" data-toggle="tab" href="#notifications_events" role="tab">
+																<a class="nav-link m-tabs__link" data-toggle="tab" href="#notifications_events" role="tab" style="padding-left: 15px;">
 																	Evenements
 																	@if($total_evenement > 0)
 																	<span class="m-badge m-badge--success" style="margin-left:15px">
@@ -227,11 +228,11 @@
 																<div class="m-scrollable" data-scrollable="true" data-height="250" data-mobile-height="200">
 																	<div class="m-list-timeline m-list-timeline--skin-light">
 																		<div class="m-list-timeline__items">
-																			@if ($article_alertes->count() == 0)
+																			@if ($total_article == 0)
 																			<div class="m-list-timeline__item">
 																				<span class="m-list-timeline__badge -m-list-timeline__badge--state-success"></span>
 																				<span class="m-list-timeline__text">
-																					Aucune notification disponible
+																					Aucun article disponible.
 																				</span>
 																			</div>
 																			@endif
@@ -251,8 +252,10 @@
 																					<span class="m-list-timeline__badge -m-list-timeline__badge--state-success"></span>
 																					<span class="m-list-timeline__text">
 																						<a href="{{route('article.show',$article_alerte->slug) }}" class="m-list-timeline__text" style="font-size:10px">
-																						{{ substr($article_alerte->titre,0,100) }} &nbsp;&nbsp; 
-																						<span class="m-badge m-badge--danger m-badge--wide" style="padding-left:2px;padding-right:2px;">{{ $article_alerte->categorie->nom }}</span>
+																							{{ substr($article_alerte->titre,0,100) }} &nbsp;&nbsp; 
+																							<span class="m-badge m-badge--danger m-badge--wide" style="padding-left:2px;padding-right:2px;">{{ $article_alerte->categorie->nom }}</span>
+																							<br>
+																							<span style="float:right">{{ $article_alerte->user->name }}</span>
 																						</a>
 																					</span>
 																					<span class="m-list-timeline__time" style="font-size:10px">
@@ -269,11 +272,11 @@
 																<div class="m-scrollable" data-scrollable="true" data-height="250" data-mobile-height="200">
 																	<div class="m-list-timeline m-list-timeline--skin-light">
 																		<div class="m-list-timeline__items">
-																			@if ($evenement_alertes->count() == 0)
+																			@if ($total_evenement == 0)
 																			<div class="m-list-timeline__item">
 																				<span class="m-list-timeline__badge -m-list-timeline__badge--state-success"></span>
 																				<span class="m-list-timeline__text">
-																					Aucune notification disponible
+																					Aucun événement disponible.
 																				</span>
 																			</div>
 																			@endif
@@ -294,8 +297,10 @@
 																					<span class="m-list-timeline__badge -m-list-timeline__badge--state-success"></span>
 																					<span class="m-list-timeline__text">
 																						<a href="{{route('evenement.show',$evenement_alerte->slug) }}" class="m-list-timeline__text" style="font-size:10px">
-																						{{ substr($evenement_alerte->titre,0,100) }} &nbsp;&nbsp;
-																						<span class="m-badge m-badge--danger m-badge--wide" style="padding-left:2px;padding-right:2px;">{{ $evenement_alerte->categorie->nom }}</span>
+																							{{ substr($evenement_alerte->titre,0,100) }} &nbsp;&nbsp;
+																							<span class="m-badge m-badge--danger m-badge--wide" style="padding-left:2px;padding-right:2px;">{{ $evenement_alerte->categorie->nom }}</span>
+																							<br>
+																							<span style="float:right">{{ $evenement_alerte->user->name }}</span>
 																						</a>
 																					</span>
 																					<span class="m-list-timeline__time" style="font-size:10px">
