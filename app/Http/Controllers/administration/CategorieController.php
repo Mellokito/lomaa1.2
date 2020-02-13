@@ -7,6 +7,7 @@ use App\Categorie;
 use Illuminate\Database\QueryException;
 use Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CategorieController extends Controller
 {
@@ -23,6 +24,9 @@ class CategorieController extends Controller
      */
     public function index()
     {
+        if(Auth::user()->role != 'Super Administrateur'){
+            return redirect()->route('utilisateur.user_error')->with('error','Vous ne disposez pas des autorisations nécessaires pour effectuer cette action');
+        }
         $data['categories'] = Categorie::all();
         return view('administration.articles.categorie.index', $data);
     }
@@ -34,6 +38,9 @@ class CategorieController extends Controller
      */
     public function create()
     {
+        if(Auth::user()->role != 'Super Administrateur'){
+            return redirect()->route('utilisateur.user_error')->with('error','Vous ne disposez pas des autorisations nécessaires pour effectuer cette action');
+        }
         return view('administration.articles.categorie.create');
     }
 
@@ -45,6 +52,10 @@ class CategorieController extends Controller
      */
     public function store(Request $request)
     {
+        if(Auth::user()->role != 'Super Administrateur'){
+            return redirect()->route('utilisateur.user_error')->with('error','Vous ne disposez pas des autorisations nécessaires pour effectuer cette action');
+        }
+
         $validator = Validator::make($request->all(), [
             'nom' => 'required|string|max:255|unique:categories,nom',
         ]);
@@ -84,6 +95,10 @@ class CategorieController extends Controller
      */
     public function edit($slug)
     {
+        if(Auth::user()->role != 'Super Administrateur'){
+            return redirect()->route('utilisateur.user_error')->with('error','Vous ne disposez pas des autorisations nécessaires pour effectuer cette action');
+        }
+
         $categorie = Categorie::where('slug',$slug)->first();
         if (!$categorie) {
             return redirect('404');
@@ -103,6 +118,10 @@ class CategorieController extends Controller
      */
     public function update(Request $request, $slug)
     {
+        if(Auth::user()->role != 'Super Administrateur'){
+            return redirect()->route('utilisateur.user_error')->with('error','Vous ne disposez pas des autorisations nécessaires pour effectuer cette action');
+        }
+
         $categorie = Categorie::where('slug',$slug)->first();
         if (!$categorie) {
             return redirect('404');
@@ -132,6 +151,10 @@ class CategorieController extends Controller
      */
     public function destroy($slug)
     {
+        if(Auth::user()->role != 'Super Administrateur'){
+            return redirect()->route('utilisateur.user_error')->with('error','Vous ne disposez pas des autorisations nécessaires pour effectuer cette action');
+        }
+
         $categorie = Categorie::where('slug',$slug)->first();
         if (!$categorie) {
             return redirect('404');
@@ -151,6 +174,10 @@ class CategorieController extends Controller
     }
 
     public function valider($slug){
+        if(Auth::user()->role != 'Super Administrateur'){
+            return redirect()->route('utilisateur.user_error')->with('error','Vous ne disposez pas des autorisations nécessaires pour effectuer cette action');
+        }
+
         $categorie = Categorie::where('slug',$slug)->first();
         if(!$categorie){
            return redirect('404');
@@ -168,6 +195,10 @@ class CategorieController extends Controller
         }
     }
     public function publier($slug){
+
+        if(Auth::user()->role != 'Super Administrateur'){
+            return redirect()->route('utilisateur.user_error')->with('error','Vous ne disposez pas des autorisations nécessaires pour effectuer cette action');
+        }
         $categorie = Categorie::where('slug',$slug)->first();
         if(!$categorie){
            return redirect('404');
