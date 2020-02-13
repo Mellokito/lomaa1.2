@@ -228,7 +228,8 @@
 																				<span class="m-list-timeline__badge -m-list-timeline__badge--state-success"></span>
 																				<span class="m-list-timeline__text">
 																					<a href="{{route('article.show',$article_alerte->slug) }}" class="m-list-timeline__text" style="font-size:10px">
-																					{{ substr($article_alerte->titre,0,100) }} - <span style="color:red;font-weight: bold">{{ $article_alerte->categorie->nom }}</span> 
+																					{{ substr($article_alerte->titre,0,100) }} &nbsp;&nbsp; 
+																					<span class="m-badge m-badge--danger m-badge--wide" style="padding-left:2px;padding-right:2px;">{{ $article_alerte->categorie->nom }}</span>
 																					</a>
 																				</span>
 																				<span class="m-list-timeline__time" style="font-size:10px">
@@ -249,7 +250,8 @@
 																				<span class="m-list-timeline__badge -m-list-timeline__badge--state-success"></span>
 																				<span class="m-list-timeline__text">
 																					<a href="{{route('evenement.show',$evenement_alerte->slug) }}" class="m-list-timeline__text" style="font-size:10px">
-																					{{ substr($evenement_alerte->titre,0,100) }} - <span style="color:red;font-weight: bold">{{ $evenement_alerte->categorie->nom }}</span>
+																					{{ substr($evenement_alerte->titre,0,100) }} &nbsp;&nbsp;
+																					<span class="m-badge m-badge--danger m-badge--wide" style="padding-left:2px;padding-right:2px;">{{ $evenement_alerte->categorie->nom }}</span>
 																					</a>
 																				</span>
 																				<span class="m-list-timeline__time" style="font-size:10px">
