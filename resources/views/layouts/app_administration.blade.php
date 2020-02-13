@@ -165,8 +165,7 @@
 												</div>
 												<div class="m-dropdown__body">
 													<div class="m-dropdown__content">
-														<ul class="nav nav-tabs m-tabs m-tabs-line m-tabs-line--brand"
-															role="tablist">
+														<ul class="nav nav-tabs m-tabs m-tabs-line m-tabs-line--brand" role="tablist" dir="rtl" style="padding-right: 0px;">
 															<li class="nav-item m-tabs__item">
 																	@php $count_article = 0; @endphp
 																	@foreach($article_alertes as $article_alerte)
@@ -186,7 +185,7 @@
 																	
 																<a class="nav-link m-tabs__link active" data-toggle="tab" href="#notifications_article" role="tab">
 																	Articles
-																	<span class="m-badge m-badge--success">
+																	<span class="m-badge m-badge--success" style="margin-left:15px">
 																		{{ $total_article }}
 																	</span>
 																</a>
@@ -209,7 +208,7 @@
 																	@endphp
 																<a class="nav-link m-tabs__link" data-toggle="tab" href="#notifications_events" role="tab">
 																	Evenements
-																	<span class="m-badge m-badge--success">
+																	<span class="m-badge m-badge--success" style="margin-left:15px">
 																		{{ $total_evenement }}
 																	</span>
 																</a>
@@ -229,7 +228,7 @@
 																				<span class="m-list-timeline__badge -m-list-timeline__badge--state-success"></span>
 																				<span class="m-list-timeline__text">
 																					<a href="{{route('article.show',$article_alerte->slug) }}" class="m-list-timeline__text" style="font-size:10px">
-																					{{ substr($article_alerte->titre,0,100) }} - <span style="color:red;">{{ $article_alerte->categorie->nom }}</span> 
+																					{{ substr($article_alerte->titre,0,100) }} - <span style="color:red;font-weight: bold">{{ $article_alerte->categorie->nom }}</span> 
 																					</a>
 																				</span>
 																				<span class="m-list-timeline__time" style="font-size:10px">
@@ -250,7 +249,7 @@
 																				<span class="m-list-timeline__badge -m-list-timeline__badge--state-success"></span>
 																				<span class="m-list-timeline__text">
 																					<a href="{{route('evenement.show',$evenement_alerte->slug) }}" class="m-list-timeline__text" style="font-size:10px">
-																					{{ substr($evenement_alerte->titre,0,100) }} - {{ $evenement_alerte->categorie->nom }}
+																					{{ substr($evenement_alerte->titre,0,100) }} - <span style="color:red;font-weight: bold">{{ $evenement_alerte->categorie->nom }}</span>
 																					</a>
 																				</span>
 																				<span class="m-list-timeline__time" style="font-size:10px">
