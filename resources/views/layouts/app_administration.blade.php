@@ -760,7 +760,7 @@
 						
 						
 
-						@if(Auth::user()->role == 'Super Administrateur' || Auth::user()->role == 'Administrateur')
+						@if(Auth::user()->role == 'Super Administrateur')
 						<li class="m-menu__section ">
 							<h4 class="m-menu__section-text">Administration</h4>
 							<i class="m-menu__section-icon flaticon-more-v2"></i>
