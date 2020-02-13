@@ -155,7 +155,14 @@ class UtilisateurController extends Controller
                 }
     
                 if ($user->id == Auth::user()->id) {
-                    $user->role = $user->role == 'Administrateur' ? 1 : 2;
+                    if($user->role == 'Super Administrateur'){
+                        $user->role = 1;
+                    }elseif($user->role == 'Administrateur'){
+                        $user->role = 2;
+                    }else{
+                        $user->role = 3;
+                    }
+                    
                     $user->statut = $user->statut  == 'Actif' ? 1 : 0;
                 } else {
                     $user->role = $request->role;

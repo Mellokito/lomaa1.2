@@ -39,8 +39,9 @@ class User extends Authenticatable
 
 
     private $role = [
-        1 => "Administrateur",
-        2 => "Contributeur",
+        1 => "Super Administrateur",
+        2 => "Administrateur",
+        3 => "Contributeur"
     ];
 
     private $statut = [

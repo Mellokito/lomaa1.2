@@ -71,7 +71,7 @@
                     <th>Site</th>
                     <th>Date</th>
                     <th>Validé</th>
-                    @if(Auth::user()->role == 'Administrateur')
+                    @if(Auth::user()->role == 'Super Administrateur' || Auth::user()->role == 'Administrateur')
                     <th>Publié</th>
                     @endif
                     <th>Ajouté par</th>
@@ -106,7 +106,7 @@
                         <td>
                             <span class="m-badge m-badge--{{ $evenement->valide ? 'success' : 'danger'}} m-badge--wide">{{ $evenement->valide ? 'oui' : 'non' }}</span>
                         </td>
-                        @if(Auth::user()->role == 'Administrateur')
+                        @if(Auth::user()->role == 'Super Administrateur' || Auth::user()->role == 'Administrateur')
                         <td>
                             <span class="m-badge m-badge--{{ $evenement->publish ? 'success' : 'danger'}} m-badge--wide">{{ $evenement->publish ? 'oui' : 'non' }}</span>
                         </td>
@@ -131,19 +131,23 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end"
                                     style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-32px, 27px, 0px);">
-                                    @if(Auth::user()->role == 'Administrateur')
+                                    @if(Auth::user()->role == 'Super Administrateur' || Auth::user()->role == 'Administrateur')
                                         <a class="dropdown-item" href="{{route('evenement.show',$evenement->slug)}}" >
                                             <i class="la la-eye"></i> &nbsp; Voir l'événement
                                         </a>
+                                        @if(!$evenement->publish)
                                         <a class="dropdown-item" href="{{route('evenement.valider',$evenement->slug)}}" 
                                             onclick="return confirm('Confirmer cette action ?');">
                                             <i class="la la-edit"></i> &nbsp; {{ $evenement->valide ? 'Annuler validation' : 'Valider'}}
                                         </a>
-                                        @if($evenement->valide)
-                                        <a class="dropdown-item" href="{{route('evenement.publier',$evenement->slug)}}" 
-                                            onclick="return confirm('Confirmer cette action ?');">
-                                            <i class="la la-edit"></i> &nbsp; {{ $evenement->publish ? 'Annuler publication' : 'Publier'}}
-                                        </a>
+                                        @endif
+                                        @if(Auth::user()->role == 'Super Administrateur')
+                                            @if($evenement->valide)
+                                                <a class="dropdown-item" href="{{route('evenement.publier',$evenement->slug)}}" 
+                                                    onclick="return confirm('Confirmer cette action ?');">
+                                                    <i class="la la-edit"></i> &nbsp; {{ $evenement->publish ? 'Annuler publication' : 'Publier'}}
+                                                </a>
+                                            @endif
                                         @endif
                                     @endif
                                     <a class="dropdown-item" href="{{route('evenement.edit',$evenement->slug)}}">

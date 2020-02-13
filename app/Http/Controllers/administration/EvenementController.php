@@ -28,7 +28,7 @@ class EvenementController extends Controller
     public function index()
     {
         $user = Auth::user();
-        if($user->role == 'Administrateur'){
+        if($user->role == 'Super Administrateur' || $user->role == 'Administrateur'){
             $data['evenements'] = Evenement::all();
         }else{
             $data['evenements'] = Evenement::where('user_id',Auth::user()->id)->get();
@@ -47,7 +47,7 @@ class EvenementController extends Controller
         $user = Auth::user();
 
         //////////DROIT ACCES /////////////
-        if($user->role == 'Administrateur'){
+        if($user->role == 'Super Administrateur' || $user->role == 'Administrateur'){
             $data['categories'] = Categorie_evenement::all();
         }else{
             $droit_acces = new Droit_acces();
@@ -112,7 +112,7 @@ class EvenementController extends Controller
                 $evenement->image = $filename_image;
             }
             ///////////DROIT ACCES//////////////////
-            if($user->role == 'Administrateur'){
+            if($user->role == 'Super Administrateur' || $user->role == 'Administrateur'){
                 $evenement->categorie_id = $request->categorie;
             }else{
                 $droit_acces = new Droit_acces();
@@ -148,13 +148,15 @@ class EvenementController extends Controller
      */
     public function show($slug)
     {
-        if(Auth::user()->role != 'Administrateur' && $evenement->valide){
-            return redirect()->route('utilisateur.user_error')->with('error','Vous ne disposez pas des autorisations nécessaires pour effectuer cette action');
-        }
         $evenement = Evenement::where('slug',$slug)->first();
         if (!$evenement) {
             return redirect('404');
         }
+
+        if((Auth::user()->role != 'Super Administrateur' && Auth::user()->role != 'Administrateur') && $evenement->valide){
+            return redirect()->route('utilisateur.user_error')->with('error','Vous ne disposez pas des autorisations nécessaires pour effectuer cette action');
+        }
+        
 
         $data['evenement'] = $evenement;
 
@@ -175,7 +177,7 @@ class EvenementController extends Controller
             return redirect('404');
         }
 
-        if($user()->role != 'Administrateur' && $evenement->valide){
+        if( ( $user->role != 'Super Administrateur' && $user->role != 'Administrateur' )  && $evenement->valide) {
             return redirect()->route('utilisateur.user_error')->with('error','Vous ne disposez pas des autorisations nécessaires pour effectuer cette action');
         }
 
@@ -183,7 +185,7 @@ class EvenementController extends Controller
         
 
         //////////DROIT ACCES /////////////
-        if($user->role == 'Administrateur'){
+        if($user->role == 'Super Administrateur' || $user->role == 'Administrateur'){
             $data['categories'] = Categorie_evenement::all();
         }else{
             $droit_acces = new Droit_acces();
@@ -251,7 +253,7 @@ class EvenementController extends Controller
             }
             
             ///////////DROIT ACCES//////////////////
-            if($user->role == 'Administrateur'){
+            if($user->role == 'Super Administrateur' || $user->role == 'Administrateur'){
                 $evenement->categorie_id = $request->categorie;
             }else{
                 $droit_acces = new Droit_acces();
@@ -296,7 +298,7 @@ class EvenementController extends Controller
             return redirect('404');
         }
 
-        if($user()->role != 'Administrateur' && $evenement->valide){
+        if(($user()->role != 'Super Administrateur' && $user()->role != 'Administrateur') && $evenement->valide){
             return redirect()->route('utilisateur.user_error')->with('error','Vous ne disposez pas des autorisations nécessaires pour effectuer cette action');
         }
         
@@ -313,7 +315,7 @@ class EvenementController extends Controller
             return redirect('404');
         }
 
-        if($user()->role != 'Administrateur' && $evenement->valide){
+        if(($user()->role != 'Super Administrateur' && $user()->role != 'Administrateur') && $evenement->valide){
             return redirect()->route('utilisateur.user_error')->with('error','Vous ne disposez pas des autorisations nécessaires pour effectuer cette action');
         }
         

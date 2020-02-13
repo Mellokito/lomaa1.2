@@ -45,21 +45,25 @@
                         </div>
                     </div>
                     <div class="m-portlet__head-tools">
-                        @if(Auth::user()->role == 'Administrateur')
+                        @if(Auth::user()->role == 'Super Administrateur' || Auth::user()->role == 'Administrateur')
                         <div class="dropdown dropright">
                             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Action
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                @if(!$evenement->publish)
                                 <a class="dropdown-item" href="{{route('evenement.valider',$evenement->slug)}}" 
                                     onclick="return confirm('Confirmer cette action ?');">
                                     <i class="la la-edit"></i> &nbsp; {{ $evenement->valide ? 'Annuler validation' : 'Valider'}}
                                 </a>
-                                @if($evenement->valide)
-                                <a class="dropdown-item" href="{{route('evenement.publier',$evenement->slug)}}" 
-                                    onclick="return confirm('Confirmer cette action ?');">
-                                    <i class="la la-edit"></i> &nbsp; {{ $evenement->publish ? 'Annuler publication' : 'Publier'}}
-                                </a>
+                                @endif
+                                @if(Auth::user()->role == 'Super Administrateur')
+                                    @if($evenement->valide)
+                                        <a class="dropdown-item" href="{{route('evenement.publier',$evenement->slug)}}" 
+                                            onclick="return confirm('Confirmer cette action ?');">
+                                            <i class="la la-edit"></i> &nbsp; {{ $evenement->publish ? 'Annuler publication' : 'Publier'}}
+                                        </a>
+                                    @endif
                                 @endif
                             <a class="dropdown-item" href="{{route('evenement.edit',$evenement->slug)}}">
                                 <i class="la la-edit"></i> &nbsp; Modifier

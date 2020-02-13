@@ -66,7 +66,7 @@
                     <th>Image</th>
                     <th>Nom</th>
                     <th>Validé</th>
-                    @if(Auth::user()->role == 'Administrateur')
+                    @if(Auth::user()->role == 'Super Administrateur' || Auth::user()->role == 'Administrateur')
                     <th>Publié</th>
                     @endif
                     <th>Ajouté par</th>
@@ -86,7 +86,7 @@
                         <td>
                             <span class="m-badge m-badge--{{ $image->valide ? 'success' : 'danger'}} m-badge--wide">{{ $image->valide ? 'oui' : 'non' }}</span>
                         </td>
-                        @if(Auth::user()->role == 'Administrateur')
+                        @if(Auth::user()->role == 'Super Administrateur' || Auth::user()->role == 'Administrateur')
                         <td>
                             <span class="m-badge m-badge--{{ $image->publish ? 'success' : 'danger'}} m-badge--wide">{{ $image->publish ? 'oui' : 'non' }}</span>
                         </td>
@@ -111,16 +111,20 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end"
                                     style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-32px, 27px, 0px);">
-                                    @if(Auth::user()->role == 'Administrateur')
+                                    @if(Auth::user()->role == 'Super Administrateur' || Auth::user()->role == 'Administrateur')
+                                        @if(!$image->publish)
                                         <a class="dropdown-item" href="{{route('image.valider',$image->id)}}" 
                                             onclick="return confirm('Confirmer cette action ?');">
                                             <i class="la la-edit"></i> &nbsp; {{ $image->valide ? 'Annuler validation' : 'Valider'}}
                                         </a>
-                                        @if($image->valide)
-                                        <a class="dropdown-item" href="{{route('image.publier',$image->id)}}" 
-                                            onclick="return confirm('Confirmer cette action ?');">
-                                            <i class="la la-edit"></i> &nbsp; {{ $image->publish ? 'Annuler publication' : 'Publier'}}
-                                        </a>
+                                        @endif
+                                        @if(Auth::user()->role == 'Super Administrateur')
+                                            @if($image->valide)
+                                                <a class="dropdown-item" href="{{route('image.publier',$image->id)}}" 
+                                                    onclick="return confirm('Confirmer cette action ?');">
+                                                    <i class="la la-edit"></i> &nbsp; {{ $image->publish ? 'Annuler publication' : 'Publier'}}
+                                                </a>
+                                            @endif
                                         @endif
                                     @endif
 

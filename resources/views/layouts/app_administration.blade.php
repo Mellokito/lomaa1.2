@@ -118,18 +118,39 @@
 
 
 						<!-- END: Horizontal Menu -->
+						@php
+						/* //////////////////////	Pièces ////////////////////// */
+						$article_alertes = App\Article::
+							select('articles.*','users.*','articles.id as id_article','articles.created_at as date_creation')
+							->where('articles.user_id','!=',Auth::user()->id)
+							->join('users','users.id','=','articles.user_id')
+							->orderby('articles.created_at','DESC')
+							->get();
 
+						$evenement_alertes = App\Evenement::
+							select('evenements.*','users.*','evenements.id as id_evenement','evenements.created_at as date_creation')
+							->where('evenements.user_id','!=',Auth::user()->id)
+							->join('users','users.id','=','evenements.user_id')
+							->orderby('evenements.created_at','DESC')
+							->get();
+
+						@endphp
 						<!-- BEGIN: Topbar -->
 						<div id="m_header_topbar"
 							class="m-topbar  m-stack m-stack--ver m-stack--general m-stack--fluid">
 							<div class="m-stack__item m-topbar__nav-wrapper">
 								<ul class="m-topbar__nav m-nav m-nav--inline">
-									<!-- <li class="m-nav__item m-topbar__notifications m-topbar__notifications--img m-dropdown m-dropdown--large m-dropdown--header-bg-fill m-dropdown--arrow m-dropdown--align-center 	m-dropdown--mobile-full-width"
+
+									{{-- Zone Notification  --}}
+									@if(Auth::user()->role == 'Super Administrateur' || Auth::user()->role == 'Administrateur')
+									<li class="m-nav__item m-topbar__notifications m-topbar__notifications--img m-dropdown m-dropdown--large m-dropdown--header-bg-fill m-dropdown--arrow m-dropdown--align-center 	m-dropdown--mobile-full-width"
 										m-dropdown-toggle="click" m-dropdown-persistent="1">
 										<a href="#" class="m-nav__link m-dropdown__toggle"
 											id="m_topbar_notification_icon">
-											<span
-												class="m-nav__link-badge m-badge m-badge--dot m-badge--dot-small m-badge--danger"></span>
+											@if($article_alertes->count() > 0 || $evenement_alertes->count() > 0)
+												<span class="m-nav__link-badge m-badge m-badge--dot m-badge--dot-small m-badge--danger"></span>
+											@endif
+											
 											<span class="m-nav__link-icon"><i class="flaticon-alarm"></i></span>
 										</a>
 										<div class="m-dropdown__wrapper">
@@ -138,141 +159,110 @@
 												<div class="m-dropdown__header m--align-center"
 													style="background: url({{ asset('assets/app/media/img/misc/notification_bg.jpg')}} ); background-size: cover;">
 
-													<span class="m-dropdown__header-subtitle">Notifications</span>
+													<span class="m-dropdown__header-subtitle">
+														Notifications
+													</span>
 												</div>
 												<div class="m-dropdown__body">
 													<div class="m-dropdown__content">
 														<ul class="nav nav-tabs m-tabs m-tabs-line m-tabs-line--brand"
 															role="tablist">
 															<li class="nav-item m-tabs__item">
-																<a class="nav-link m-tabs__link active" data-toggle="tab" href="#topbar_notifications_notifications" role="tab">
+																	@php $count_article = 0; @endphp
+																	@foreach($article_alertes as $article_alerte)
+
+																		@php 
+																			$article_count_n = App\Article::where('id',$article_alerte->id_article)->first();
+																			foreach ($article_count_n->notification as $value) {
+																				if($value->user_article_notification->user_id == Auth::user()->id && $value->user_article_notification->article_id == $article_alerte->id_article){
+																					$count_article = $count_article + 1;
+																				}
+																			}
+																		@endphp
+																	@endforeach
+																	@php 
+																	$total_article = $article_alertes->count() - $count_article;
+																	@endphp
+																	
+																<a class="nav-link m-tabs__link active" data-toggle="tab" href="#notifications_article" role="tab">
 																	Articles
+																	<span class="m-badge m-badge--success">
+																		{{ $total_article }}
+																	</span>
 																</a>
 															</li>
 															<li class="nav-item m-tabs__item">
-																<a class="nav-link m-tabs__link" data-toggle="tab" href="#topbar_notifications_events" role="tab">Evenements</a>
+																@php $count_evenement = 0; @endphp
+																	@foreach($evenement_alertes as $evenement_alerte)
+
+																		@php 
+																			$evenement_count_n = App\Evenement::where('id',$evenement_alerte->id_evenement)->first();
+																			foreach ($evenement_count_n->notification as $value) {
+																				if($value->user_evenement_notification->user_id == Auth::user()->id && $value->user_evenement_notification->evenement_id == $evenement_alerte->id_evenement){
+																					$count_evenement = $count_evenement + 1;
+																				}
+																			}
+																		@endphp
+																	@endforeach
+																	@php 
+																	$total_evenement = $evenement_alertes->count() - $count_evenement;
+																	@endphp
+																<a class="nav-link m-tabs__link" data-toggle="tab" href="#notifications_events" role="tab">
+																	Evenements
+																	<span class="m-badge m-badge--success">
+																		{{ $total_evenement }}
+																	</span>
+																</a>
 															</li>
 															<li class="nav-item m-tabs__item">
-																<a class="nav-link m-tabs__link" data-toggle="tab" href="#topbar_notifications_logs" role="tab">Comments</a>
+																<a class="nav-link m-tabs__link" data-toggle="tab" href="#notifications_comments" role="tab">Comments</a>
 															</li>
 
 														</ul>
 														<div class="tab-content">
-															<div class="tab-pane active" id="topbar_notifications_notifications" role="tabpanel">
+															<div class="tab-pane active" id="notifications_article" role="tabpanel">
 																<div class="m-scrollable" data-scrollable="true" data-height="250" data-mobile-height="200">
 																	<div class="m-list-timeline m-list-timeline--skin-light">
 																		<div class="m-list-timeline__items">
+																			@foreach($article_alertes as $article_alerte)
 																			<div class="m-list-timeline__item">
 																				<span class="m-list-timeline__badge -m-list-timeline__badge--state-success"></span>
-																				<span class="m-list-timeline__text">12
-																					new users registered</span>
-																				<span class="m-list-timeline__time">Just
-																					now</span>
+																				<span class="m-list-timeline__text">
+																					<a href="{{route('article.show',$article_alerte->slug) }}">
+																					{{ $article_alerte->titre }}
+																					</a>
+																				</span>
+																				<span class="m-list-timeline__time">
+																					{{ $article_alerte->date_creation }}
+																				</span>
 																			</div>
-																			<div class="m-list-timeline__item">
-																				<span class="m-list-timeline__badge"></span>
-																				<span class="m-list-timeline__text">System
-																					shutdown <span class="m-badge m-badge--success m-badge--wide">pending</span></span>
-																				<span class="m-list-timeline__time">14
-																					mins</span>
-																			</div>
-																			<div class="m-list-timeline__item">
-																				<span class="m-list-timeline__badge"></span>
-																				<span class="m-list-timeline__text">New
-																					invoice received</span>
-																				<span class="m-list-timeline__time">20
-																					mins</span>
-																			</div>
-																			<div class="m-list-timeline__item">
-																				<span class="m-list-timeline__badge"></span>
-																				<span class="m-list-timeline__text">DB
-																					overloaded 80% <span class="m-badge m-badge--info m-badge--wide">settled</span></span>
-																				<span class="m-list-timeline__time">1
-																					hr</span>
-																			</div>
-																			<div class="m-list-timeline__item">
-																				<span class="m-list-timeline__badge"></span>
-																				<span class="m-list-timeline__text">System
-																					error - <a href="#" class="m-link">Check</a></span>
-																				<span class="m-list-timeline__time">2
-																					hrs</span>
-																			</div>
-																			<div class="m-list-timeline__item m-list-timeline__item--read">
-																				<span class="m-list-timeline__badge"></span>
-																				<span href="" class="m-list-timeline__text">New
-																					order received <span class="m-badge m-badge--danger m-badge--wide">urgent</span></span>
-																				<span class="m-list-timeline__time">7
-																					hrs</span>
-																			</div>
-																			<div class="m-list-timeline__item m-list-timeline__item--read">
-																				<span class="m-list-timeline__badge"></span>
-																				<span class="m-list-timeline__text">Production
-																					server down</span>
-																				<span class="m-list-timeline__time">3
-																					hrs</span>
-																			</div>
-																			<div class="m-list-timeline__item">
-																				<span class="m-list-timeline__badge"></span>
-																				<span class="m-list-timeline__text">Production
-																					server up</span>
-																				<span class="m-list-timeline__time">5
-																					hrs</span>
-																			</div>
+																			@endforeach
 																		</div>
 																	</div>
 																</div>
 															</div>
-															<div class="tab-pane" id="topbar_notifications_events" role="tabpanel">
+															<div class="tab-pane" id="notifications_events" role="tabpanel">
 																<div class="m-scrollable" data-scrollable="true" data-height="250" data-mobile-height="200">
 																	<div class="m-list-timeline m-list-timeline--skin-light">
 																		<div class="m-list-timeline__items">
+																			@foreach($evenement_alertes as $evenement_alerte)
 																			<div class="m-list-timeline__item">
 																				<span class="m-list-timeline__badge m-list-timeline__badge--state1-success"></span>
-																				<a href="" class="m-list-timeline__text">New
-																					order received</a>
-																				<span class="m-list-timeline__time">Just
-																					now</span>
+																				<a href="" class="m-list-timeline__text">
+																					<a href="{{route('evenement.show',$evenement_alerte->slug) }}">
+																						{{ $evenement_alerte->titre }}
+																					</a>
+																				</a>
+																				<span class="m-list-timeline__time">
+																					{{ $article_alerte->date_creation }}
+																				</span>
 																			</div>
-																			<div class="m-list-timeline__item">
-																				<span class="m-list-timeline__badge m-list-timeline__badge--state1-danger"></span>
-																				<a href="" class="m-list-timeline__text">New
-																					invoice received</a>
-																				<span class="m-list-timeline__time">20
-																					mins</span>
-																			</div>
-																			<div class="m-list-timeline__item">
-																				<span class="m-list-timeline__badge m-list-timeline__badge--state1-success"></span>
-																				<a href="" class="m-list-timeline__text">Production
-																					server up</a>
-																				<span class="m-list-timeline__time">5
-																					hrs</span>
-																			</div>
-																			<div class="m-list-timeline__item">
-																				<span class="m-list-timeline__badge m-list-timeline__badge--state1-info"></span>
-																				<a href="" class="m-list-timeline__text">New
-																					order received</a>
-																				<span class="m-list-timeline__time">7
-																					hrs</span>
-																			</div>
-																			<div class="m-list-timeline__item">
-																				<span class="m-list-timeline__badge m-list-timeline__badge--state1-info"></span>
-																				<a href="" class="m-list-timeline__text">System
-																					shutdown</a>
-																				<span class="m-list-timeline__time">11
-																					mins</span>
-																			</div>
-																			<div class="m-list-timeline__item">
-																				<span class="m-list-timeline__badge m-list-timeline__badge--state1-info"></span>
-																				<a href="" class="m-list-timeline__text">Production
-																					server down</a>
-																				<span class="m-list-timeline__time">3
-																					hrs</span>
-																			</div>
+																			@endforeach
 																		</div>
 																	</div>
 																</div>
 															</div>
-															<div class="tab-pane" id="topbar_notifications_logs" role="tabpanel">
+															<div class="tab-pane" id="notifications_comments" role="tabpanel">
 																<div class="m-stack m-stack--ver m-stack--general" style="min-height: 180px;">
 																	<div class="m-stack__item m-stack__item--center m-stack__item--middle">
 																		<span class="">All caught up!<br>No new
@@ -285,8 +275,11 @@
 												</div>
 											</div>
 										</div>
-									</li> -->
-									<!-- <li class="m-nav__item m-topbar__quick-actions m-topbar__quick-actions--img m-dropdown m-dropdown--large m-dropdown--header-bg-fill m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push m-dropdown--mobile-full-width m-dropdown--skin-light"
+									</li>
+
+									{{-- Zone raccourçis --}}
+
+									<li class="m-nav__item m-topbar__quick-actions m-topbar__quick-actions--img m-dropdown m-dropdown--large m-dropdown--header-bg-fill m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push m-dropdown--mobile-full-width m-dropdown--skin-light"
 										m-dropdown-toggle="click">
 										<a href="#" class="m-nav__link m-dropdown__toggle">
 											<span
@@ -338,7 +331,8 @@
 												</div>
 											</div>
 										</div>
-									</li> -->
+									</li>
+									@endif
 									<li class="m-nav__item m-topbar__user-profile m-topbar__user-profile--img  m-dropdown m-dropdown--medium m-dropdown--arrow m-dropdown--header-bg-fill m-dropdown--align-right m-dropdown--mobile-full-width m-dropdown--skin-light"
 										m-dropdown-toggle="click">
 										<a href="#" class="m-nav__link m-dropdown__toggle">
@@ -372,12 +366,11 @@
 																<span class="m-nav__section-text">Section</span>
 															</li>
 															<li class="m-nav__item">
-																<a href="#" class="m-nav__link">
+															<a href="{{ route('compte.index') }}" class="m-nav__link">
 																	<i class="m-nav__link-icon flaticon-profile-1"></i>
 																	<span class="m-nav__link-title">
 																		<span class="m-nav__link-wrap">
-																			<span class="m-nav__link-text">Changer mot
-																				de passe</span>
+																			<span class="m-nav__link-text">Changer mot de passe</span>
 
 																		</span>
 																	</span>
@@ -449,7 +442,7 @@
 						->get();
 						@endphp
 
-						@if(Auth::user()->role == 'Administrateur' || $droit_acces_article->count() > 0)
+						@if(Auth::user()->role == 'Super Administrateur' || Auth::user()->role == 'Administrateur' || $droit_acces_article->count() > 0)
 						<li class="m-menu__section ">
 							<h4 class="m-menu__section-text">Cartegories et articles</h4>
 							<i class="m-menu__section-icon flaticon-more-v2"></i>
@@ -479,7 +472,7 @@
 						@endif
 
 						{{-- Categorie --}}
-						@if(Auth::user()->role == 'Administrateur')
+						@if(Auth::user()->role == 'Super Administrateur')
 						<li id="categorie" class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
 							<a href="javascript:;" class="m-menu__link m-menu__toggle">
 								<i class="m-menu__link-icon flaticon-users-1"></i>
@@ -516,7 +509,7 @@
 						->get();
 						@endphp
 
-						@if(Auth::user()->role == 'Administrateur' || $droit_acces_evenement->count() > 0)
+						@if(Auth::user()->role == 'Super Administrateur' || Auth::user()->role == 'Administrateur' || $droit_acces_evenement->count() > 0)
 						<li class="m-menu__section ">
 							<h4 class="m-menu__section-text">Evenements</h4>
 							<i class="m-menu__section-icon flaticon-more-v2"></i>
@@ -553,7 +546,7 @@
 						@endif
 					
 						{{-- Categorie --}}
-						@if(Auth::user()->role == 'Administrateur')
+						@if(Auth::user()->role == 'Super Administrateur')
 						<li id="categorie_evenement" class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
 							<a href="javascript:;" class="m-menu__link m-menu__toggle">
 								<i class="m-menu__link-icon flaticon-users-1"></i>
@@ -607,7 +600,7 @@
 						</li>
 						@endif
 
-						@if((Auth::user()->video == true || Auth::user()->image == true) || Auth::user()->role == 'Administrateur')
+						@if((Auth::user()->video == true || Auth::user()->image == true) || Auth::user()->role == 'Super Administrateur' || Auth::user()->role == 'Administrateur')
 						<li class="m-menu__section ">
 							<h4 class="m-menu__section-text">Gallery</h4>
 							<i class="m-menu__section-icon flaticon-more-v2"></i>
@@ -623,7 +616,7 @@
 							<div class="m-menu__submenu ">
 								<span class="m-menu__arrow"></span>
 								<ul class="m-menu__subnav">
-									@if(Auth::user()->image == true || Auth::user()->role == 'Administrateur')
+									@if(Auth::user()->image == true || Auth::user()->role == 'Super Administrateur' || Auth::user()->role == 'Administrateur')
 									<li id="image" class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
 										<a href="javascript:;" class="m-menu__link m-menu__toggle">
 											<i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i>
@@ -650,7 +643,7 @@
 										</div>
 									</li>
 									@endif
-									@if(Auth::user()->video == true || Auth::user()->role == 'Administrateur')
+									@if(Auth::user()->video == true || Auth::user()->role == 'Super Administrateur' || Auth::user()->role == 'Administrateur')
 									<li id="video" class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
 										<a href="javascript:;" class="m-menu__link m-menu__toggle">
 											<i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i>
@@ -682,7 +675,7 @@
 						</li>
 						@endif
 						
-						@if(Auth::user()->edition == true || Auth::user()->role == 'Administrateur')
+						@if(Auth::user()->edition == true || Auth::user()->role == 'Super Administrateur' || Auth::user()->role == 'Administrateur')
 						<li class="m-menu__section ">
 							<h4 class="m-menu__section-text">Revues</h4>
 							<i class="m-menu__section-icon flaticon-more-v2"></i>
@@ -721,7 +714,7 @@
 						
 						
 
-						@if(Auth::user()->role == 'Administrateur')
+						@if(Auth::user()->role == 'Super Administrateur' || Auth::user()->role == 'Administrateur')
 						<li class="m-menu__section ">
 							<h4 class="m-menu__section-text">Administration</h4>
 							<i class="m-menu__section-icon flaticon-more-v2"></i>
@@ -756,6 +749,35 @@
 
 						</li>
 						@endif
+
+						{{-- Changer mot de passe --}}
+
+						<li class="m-menu__section ">
+							<h4 class="m-menu__section-text">Utilisateur</h4>
+							<i class="m-menu__section-icon flaticon-more-v2"></i>
+						</li>
+
+
+						<li id="compte" class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
+							<a href="javascript:;" class="m-menu__link m-menu__toggle">
+								<i class="m-menu__link-icon flaticon-user-ok"></i>
+								<span class="m-menu__link-text  menuu">Compte</span>
+								<i class="m-menu__ver-arrow la la-angle-right"></i>
+							</a>
+							<div class="m-menu__submenu "> 
+								<span class="m-menu__arrow"></span>
+								<ul class="m-menu__subnav">
+									<li id="change_password" class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
+										<a href="{{ route('compte.index') }}" class="m-menu__link m-menu__toggle">
+											<i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i>
+											<span class="m-menu__link-text">Changer mot de passe</span>
+											<i class=""></i>
+										</a>
+									</li>
+								</ul>
+							</div>
+
+						</li>
 
 
 

@@ -18,7 +18,7 @@ class AccesEdition
     {
         $user = Auth::user();
 
-        if($user->edition == false && $user->role != 'Administrateur') {
+        if($user->edition == false && ($user->role != 'Super Administrateur' && $user->role != 'Administrateur')) {
             return redirect()->route('utilisateur.user_error')->with('error', 'Accès restreint');
         }
 

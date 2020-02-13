@@ -69,7 +69,7 @@
                     <th>Date</th>
                     <th>Commentaire</th>
                     <th>Validé</th>
-                    @if(Auth::user()->role == 'Administrateur')
+                    @if(Auth::user()->role == 'Super Administrateur' || Auth::user()->role == 'Administrateur')
                     <th>Publié</th>
                     @endif
                     <th>Ajouté par</th>
@@ -93,7 +93,7 @@
                             {{ $article->date }}
                         </td>
                         <td>
-                        @if(Auth::user()->role == 'Administrateur')
+                        @if(Auth::user()->role == 'Super Administrateur' || Auth::user()->role == 'Administrateur')
                             @if($article->commentaire->count() > 0)
                                 <a href="{{route('commentaire.index',$article->slug)}}">Liste des commentaire</a>
                             @endif
@@ -102,7 +102,7 @@
                         <td>
                             <span class="m-badge m-badge--{{ $article->valide ? 'success' : 'danger'}} m-badge--wide">{{ $article->valide ? 'oui' : 'non' }}</span>
                         </td>
-                        @if(Auth::user()->role == 'Administrateur')
+                        @if(Auth::user()->role == 'Super Administrateur' || Auth::user()->role == 'Administrateur')
                         <td>
                             <span class="m-badge m-badge--{{ $article->publish ? 'success' : 'danger'}} m-badge--wide">{{ $article->publish ? 'oui' : 'non' }}</span>
                         </td>
@@ -127,19 +127,23 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end"
                                     style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-32px, 27px, 0px);">
-                                    @if(Auth::user()->role == 'Administrateur')
+                                    @if(Auth::user()->role == 'Super Administrateur' || Auth::user()->role == 'Administrateur')
                                         <a class="dropdown-item" href="{{route('article.show',$article->slug)}}" >
                                             <i class="la la-eye"></i> &nbsp; Voir l'article
                                         </a>
+                                        @if(!$article->publish)
                                         <a class="dropdown-item" href="{{route('article.valider',$article->slug)}}" 
                                             onclick="return confirm('Confirmer cette action ?');">
                                             <i class="la la-edit"></i> &nbsp; {{ $article->valide ? 'Annuler validation' : 'Valider'}}
                                         </a>
-                                        @if($article->valide)
-                                        <a class="dropdown-item" href="{{route('article.publier',$article->slug)}}" 
-                                            onclick="return confirm('Confirmer cette action ?');">
-                                            <i class="la la-edit"></i> &nbsp; {{ $article->publish ? 'Annuler publication' : 'Publier'}}
-                                        </a>
+                                        @endif
+                                        @if(Auth::user()->role == 'Super Administrateur')
+                                            @if($article->valide)
+                                                <a class="dropdown-item" href="{{route('article.publier',$article->slug)}}" 
+                                                    onclick="return confirm('Confirmer cette action ?');">
+                                                    <i class="la la-edit"></i> &nbsp; {{ $article->publish ? 'Annuler publication' : 'Publier'}}
+                                                </a>
+                                            @endif
                                         @endif
                                     @endif
 

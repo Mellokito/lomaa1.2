@@ -68,7 +68,7 @@
                     <th>Auteur</th>
                     <th>Date publication</th>
                     <th>Validé</th>
-                    @if(Auth::user()->role == 'Administrateur')
+                    @if(Auth::user()->role == 'Super Administrateur' || Auth::user()->role == 'Administrateur')
                     <th>Publié</th>
                     @endif
                     <th>Ajouté par</th>
@@ -94,7 +94,7 @@
                         <td>
                             <span class="m-badge m-badge--{{ $edition->valide ? 'success' : 'danger'}} m-badge--wide">{{ $edition->valide ? 'oui' : 'non' }}</span>
                         </td>
-                        @if(Auth::user()->role == 'Administrateur')
+                        @if(Auth::user()->role == 'Super Administrateur' || Auth::user()->role == 'Administrateur')
                         <td>
                             <span class="m-badge m-badge--{{ $edition->publish ? 'success' : 'danger'}} m-badge--wide">{{ $edition->publish ? 'oui' : 'non' }}</span>
                         </td>
@@ -119,23 +119,27 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end"
                                     style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-32px, 27px, 0px);">
-                                    @if(Auth::user()->role == 'Administrateur')
-                                        <a class="dropdown-item" href="{{route('edition.valider',$edition->slug)}}" 
-                                            onclick="return confirm('Confirmer cette action ?');">
-                                            <i class="la la-edit"></i> &nbsp; {{ $edition->valide ? 'Annuler validation' : 'Valider'}}
-                                        </a>
-                                        @if($edition->valide)
-                                        <a class="dropdown-item" href="{{route('edition.publier',$edition->slug)}}" 
-                                            onclick="return confirm('Confirmer cette action ?');">
-                                            <i class="la la-edit"></i> &nbsp; {{ $edition->publish ? 'Annuler publication' : 'Publier'}}
-                                        </a>
+                                    @if(Auth::user()->role == 'Super Administrateur' || Auth::user()->role == 'Administrateur')
+                                        @if(!$edition->publish)
+                                            <a class="dropdown-item" href="{{route('edition.valider',$edition->slug)}}" 
+                                                onclick="return confirm('Confirmer cette action ?');">
+                                                <i class="la la-edit"></i> &nbsp; {{ $edition->valide ? 'Annuler validation' : 'Valider'}}
+                                            </a>
+                                        @endif
+                                        @if(Auth::user()->role == 'Super Administrateur')
+                                            @if($edition->valide)
+                                                <a class="dropdown-item" href="{{route('edition.publier',$edition->slug)}}" 
+                                                    onclick="return confirm('Confirmer cette action ?');">
+                                                    <i class="la la-edit"></i> &nbsp; {{ $edition->publish ? 'Annuler publication' : 'Publier'}}
+                                                </a>
+                                            @endif
                                         @endif
                                     @endif
                                     <a class="dropdown-item" href="{{route('edition.edit',$edition->slug)}}">
                                         <i class="la la-edit"></i> &nbsp; Modifer
                                     </a>
                                     
-                                    @if(Auth::user()->role == 'Administrateur')
+                                    @if(Auth::user()->role == 'Super Administrateur' || Auth::user()->role == 'Administrateur')
                                     <form action="{{ route('edition.destroy', $edition->slug)}}" method="POST" id="formDelete">
                                         @csrf
                                         @method('DELETE')

@@ -27,7 +27,7 @@ class VideoController extends Controller
     public function index()
     {
         $user = Auth::user();
-        if($user->role == 'Administrateur'){
+        if($user->role == 'Super Administrateur' || $user->role == 'Administrateur'){
             $data['videos'] = Video::all();
         }else{
             $data['videos'] = Video::where('user_id',Auth::user()->id)->get();

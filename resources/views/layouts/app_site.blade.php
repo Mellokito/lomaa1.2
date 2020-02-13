@@ -252,7 +252,7 @@
                     @php 
                     $categorie_evenements = App\Categorie_evenement::where('valide',true)->where('publish',true)->get();
 
-                    $categorie_articles = App\Categorie::where('id','!=',17)->where('id','!=',18)->where('valide',true)->where('publish',true)->get()
+                    $categorie_articles = App\Categorie::whereNotIn('id',[17,18,22,23])->where('valide',true)->where('publish',true)->get()
                     @endphp
                    
                     <div class="col footer-item footer-item3">

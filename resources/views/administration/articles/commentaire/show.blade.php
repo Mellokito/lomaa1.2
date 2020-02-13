@@ -52,15 +52,19 @@
                                 Action
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                @if(!$commentaire->publish)
                                 <a class="dropdown-item" href="{{route('commentaire.valider',$commentaire->id)}}" 
                                     onclick="return confirm('Confirmer cette action ?');">
                                     <i class="la la-edit"></i> &nbsp; {{ $commentaire->valide ? 'Annuler validation' : 'Valider'}}
                                 </a>
-                                @if($commentaire->valide)
-                                <a class="dropdown-item" href="{{route('commentaire.publier',$commentaire->id)}}" 
-                                    onclick="return confirm('Confirmer cette action ?');">
-                                    <i class="la la-edit"></i> &nbsp; {{ $commentaire->publish ? 'Annuler publication' : 'Publier'}}
-                                </a>
+                                @endif
+                                @if(Auth::user()->role == 'Super Administrateur')
+                                    @if($commentaire->valide)
+                                    <a class="dropdown-item" href="{{route('commentaire.publier',$commentaire->id)}}" 
+                                        onclick="return confirm('Confirmer cette action ?');">
+                                        <i class="la la-edit"></i> &nbsp; {{ $commentaire->publish ? 'Annuler publication' : 'Publier'}}
+                                    </a>
+                                    @endif
                                 @endif
                             <form action="{{ route('commentaire.destroy', $commentaire->id)}}" method="POST" id="formDelete">
                                 @csrf

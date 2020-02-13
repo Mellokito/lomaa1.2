@@ -26,7 +26,7 @@ class EditionController extends Controller
     public function index()
     {
         $user = Auth::user();
-        if($user->role == 'Administrateur'){
+        if($user->role == 'Super Administrateur' || $user->role == 'Administrateur'){
             $data['editions'] = Edition::all();
         }else{
             $data['editions'] = Edition::where('user_id',Auth::user()->id)->get();
@@ -124,7 +124,7 @@ class EditionController extends Controller
             return redirect('404');
         }
 
-        if(Auth::user()->role != 'Administrateur' && $edition->valide){
+        if((Auth::user()->role != 'Super Administrateur' && Auth::user()->role != 'Administrateur') && $edition->valide){
             return redirect()->route('utilisateur.user_error')->with('error','Vous ne disposez pas des autorisations nécessaires pour effectuer cette action');
         }
 
@@ -210,7 +210,7 @@ class EditionController extends Controller
             return redirect('404');
         }
 
-        if(Auth::user()->role != 'Administrateur' && $edition->valide){
+        if((Auth::user()->role != 'Super Administrateur' && Auth::user()->role != 'Administrateur') && $edition->valide){
             return redirect()->route('utilisateur.user_error')->with('error','Vous ne disposez pas des autorisations nécessaires pour effectuer cette action');
         }
         
@@ -226,7 +226,7 @@ class EditionController extends Controller
             return redirect('404');
         }
 
-        if(Auth::user()->role != 'Administrateur' && $edition->valide){
+        if((Auth::user()->role != 'Super Administrateur' && Auth::user()->role != 'Administrateur') && $edition->valide){
             return redirect()->route('utilisateur.user_error')->with('error','Vous ne disposez pas des autorisations nécessaires pour effectuer cette action');
         }
 

@@ -26,6 +26,8 @@
                     </span>
                 @enderror
             </div>
+
+            @include('shared.errors_succes')
             
             <div class="m-login__form-action">
                 <button type="submit" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-btn--air">Se connecter</button>

@@ -19,7 +19,7 @@ class AccesImage
         
         $user = Auth::user();
 
-        if($user->image == false && $user->role != 'Administrateur') {
+        if($user->image == false && ($user->role != 'Super Administrateur' && $user->role != 'Administrateur')) {
             return redirect()->route('utilisateur.user_error')->with('error', 'Accès restreint');
         }
 

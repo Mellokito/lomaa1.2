@@ -27,7 +27,7 @@ class ImageController extends Controller
     public function index()
     {
         $user = Auth::user();
-        if($user->role == 'Administrateur'){
+        if($user->role == 'Super Administrateur' || $user->role == 'Administrateur'){
             $data['images'] = Image::all();
         }else{
             $data['images'] = Image::where('user_id',Auth::user()->id)->get();
@@ -110,7 +110,7 @@ class ImageController extends Controller
      */
     public function edit(Image $image)
     {
-        if(Auth::user()->role != 'Administrateur' && $image->valide){
+        if((Auth::user()->role != 'Super Administrateur' && Auth::user()->role != 'Administrateur') && $image->valide){
             return redirect()->route('utilisateur.user_error')->with('error','Vous ne disposez pas des autorisations nécessaires pour effectuer cette action');
         }
         $data['image'] = $image;        
@@ -148,7 +148,7 @@ class ImageController extends Controller
      */
     public function destroy(Image $image)
     {
-        if(Auth::user()->role != 'Administrateur' && $image->valide){
+        if((Auth::user()->role != 'Super Administrateur' && Auth::user()->role != 'Administrateur') && $image->valide){
             return redirect()->route('utilisateur.user_error')->with('error','Vous ne disposez pas des autorisations nécessaires pour effectuer cette action');
         }
         $image->delete();

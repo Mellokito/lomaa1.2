@@ -96,16 +96,20 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end"
                                     style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-32px, 27px, 0px);">
-                                    @if(Auth::user()->role == 'Administrateur')
-                                    <a class="dropdown-item" href="{{route('categorie_evenement.valider',$categorie->slug)}}" 
-                                        onclick="return confirm('Confirmer cette action ?');">
-                                        <i class="la la-edit"></i> &nbsp; {{ $categorie->valide ? 'Annuler validation' : 'Valider'}}
-                                    </a>
-                                    @if($categorie->valide)
-                                    <a class="dropdown-item" href="{{route('categorie_evenement.publier',$categorie->slug)}}" 
-                                        onclick="return confirm('Confirmer cette action ?');">
-                                        <i class="la la-edit"></i> &nbsp; {{ $categorie->publish ? 'Annuler publication' : 'Publier'}}
-                                    </a>
+                                    @if(Auth::user()->role == 'Super Administrateur' || Auth::user()->role == 'Administrateur')
+                                        @if(!$categorie->publish)
+                                        <a class="dropdown-item" href="{{route('categorie_evenement.valider',$categorie->slug)}}" 
+                                            onclick="return confirm('Confirmer cette action ?');">
+                                            <i class="la la-edit"></i> &nbsp; {{ $categorie->valide ? 'Annuler validation' : 'Valider'}}
+                                        </a>
+                                        @endif
+                                    @if(Auth::user()->role == 'Super Administrateur')
+                                        @if($categorie->valide)
+                                        <a class="dropdown-item" href="{{route('categorie_evenement.publier',$categorie->slug)}}" 
+                                            onclick="return confirm('Confirmer cette action ?');">
+                                            <i class="la la-edit"></i> &nbsp; {{ $categorie->publish ? 'Annuler publication' : 'Publier'}}
+                                        </a>
+                                        @endif
                                     @endif
 
                                     <a class="dropdown-item" href="{{route('categorie_evenement.edit',$categorie->slug)}}">

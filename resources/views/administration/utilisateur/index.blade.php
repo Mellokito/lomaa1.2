@@ -100,7 +100,7 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end"
                                     style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-32px, 27px, 0px);">
-                                    @if(Auth::user()->role == 'Administrateur')
+                                    @if(Auth::user()->role == 'Super Administrateur' || Auth::user()->role == 'Administrateur')
                                         <a class="dropdown-item" href="{{route('utilisateur.edit',$user->id)}}">
                                             <i class="la la-edit"></i> &nbsp; Modifer
                                         </a>

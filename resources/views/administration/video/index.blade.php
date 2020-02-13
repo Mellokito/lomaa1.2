@@ -67,7 +67,7 @@
                     <th>Titre</th>
                     <th>Description</th>
                     <th>Validé</th>
-                    @if(Auth::user()->role == 'Administrateur')
+                    @if(Auth::user()->role == 'Super Administrateur' || Auth::user()->role == 'Administrateur')
                     <th>Publié</th>
                     @endif
                     <th>Ajouté par</th>
@@ -90,7 +90,7 @@
                         <td>
                             <span class="m-badge m-badge--{{ $video->valide ? 'success' : 'danger'}} m-badge--wide">{{ $video->valide ? 'oui' : 'non' }}</span>
                         </td>
-                        @if(Auth::user()->role == 'Administrateur')
+                        @if(Auth::user()->role == 'Super Administrateur' || Auth::user()->role == 'Administrateur')
                         <td>
                             <span class="m-badge m-badge--{{ $video->publish ? 'success' : 'danger'}} m-badge--wide">{{ $video->publish ? 'oui' : 'non' }}</span>
                         </td>
@@ -115,23 +115,27 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end"
                                     style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-32px, 27px, 0px);">
-                                    @if(Auth::user()->role == 'Administrateur')
+                                    @if(Auth::user()->role == 'Super Administrateur' || Auth::user()->role == 'Administrateur')
+                                        @if(!$video->publish)
                                         <a class="dropdown-item" href="{{route('video.valider',$video->slug)}}" 
                                             onclick="return confirm('Confirmer cette action ?');">
                                             <i class="la la-edit"></i> &nbsp; {{ $video->valide ? 'Annuler validation' : 'Valider'}}
                                         </a>
-                                        @if($video->valide)
-                                        <a class="dropdown-item" href="{{route('video.publier',$video->slug)}}" 
-                                            onclick="return confirm('Confirmer cette action ?');">
-                                            <i class="la la-edit"></i> &nbsp; {{ $video->publish ? 'Annuler publication' : 'Publier'}}
-                                        </a>
+                                        @endif
+                                        @if(Auth::user()->role == 'Super Administrateur')
+                                            @if($video->valide)
+                                                <a class="dropdown-item" href="{{route('video.publier',$video->slug)}}" 
+                                                    onclick="return confirm('Confirmer cette action ?');">
+                                                    <i class="la la-edit"></i> &nbsp; {{ $video->publish ? 'Annuler publication' : 'Publier'}}
+                                                </a>
+                                            @endif
                                         @endif
                                     @endif
                                     <a class="dropdown-item" href="{{route('video.edit',$video->slug)}}">
                                         <i class="la la-edit"></i> &nbsp; Modifer
                                     </a>
                                     
-                                    @if(Auth::user()->role == 'Administrateur')
+                                    @if(Auth::user()->role == 'Super Administrateur')
                                     <form action="{{ route('video.destroy', $video->slug)}}" method="POST" id="formDelete">
                                         @csrf
                                         @method('DELETE')

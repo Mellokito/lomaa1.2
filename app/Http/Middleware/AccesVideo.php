@@ -19,7 +19,7 @@ class AccesVideo
 
         $user = Auth::user();
 
-        if($user->video == false && $user->role != 'Administrateur') {
+        if($user->video == false && ($user->role != 'Super Administrateur' && $user->role != 'Administrateur')) {
             return redirect()->route('utilisateur.user_error')->with('error', 'Accès restreint');
         }
         
