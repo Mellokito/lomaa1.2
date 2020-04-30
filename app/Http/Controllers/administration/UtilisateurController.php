@@ -27,6 +27,9 @@ class UtilisateurController extends Controller
      */
     public function index()
     {
+        if(Auth::user()->role != 'Super Administrateur'){
+            return redirect()->route('utilisateur.user_error')->with('error','Vous ne disposez pas des autorisations nécessaires pour effectuer cette action');
+        }
         $data['list_utilisateurs'] = User::all();
         return view('administration.utilisateur.index', $data);
     }
@@ -38,6 +41,9 @@ class UtilisateurController extends Controller
      */
     public function create()
     {
+        if(Auth::user()->role != 'Super Administrateur'){
+            return redirect()->route('utilisateur.user_error')->with('error','Vous ne disposez pas des autorisations nécessaires pour effectuer cette action');
+        }
         $user = new User();
         $data['roles'] = $user->role();
 
@@ -52,11 +58,14 @@ class UtilisateurController extends Controller
      */
     public function store(Request $request)
     {
+        if(Auth::user()->role != 'Super Administrateur'){
+            return redirect()->route('utilisateur.user_error')->with('error','Vous ne disposez pas des autorisations nécessaires pour effectuer cette action');
+        }
         $validator = Validator::make($request->all(), [
             'nom' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8|max:32|confirmed',
-            'role' => 'required|in:1,2',
+            'role' => 'required|in:1,2,3',
         ]);
 
         if ($validator->fails()) {
@@ -110,6 +119,9 @@ class UtilisateurController extends Controller
      */
     public function edit($id)
     {
+        if(Auth::user()->role != 'Super Administrateur'){
+            return redirect()->route('utilisateur.user_error')->with('error','Vous ne disposez pas des autorisations nécessaires pour effectuer cette action');
+        }
         $user = User::find($id);
         if (!$user) {
             return redirect('404');
@@ -129,6 +141,9 @@ class UtilisateurController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if(Auth::user()->role != 'Super Administrateur'){
+            return redirect()->route('utilisateur.user_error')->with('error','Vous ne disposez pas des autorisations nécessaires pour effectuer cette action');
+        }
         $user = User::find($id);
         if (!$user) {
             return redirect('404');
@@ -137,7 +152,7 @@ class UtilisateurController extends Controller
             'nom' => 'required|string|max:255',
             'email' => 'required|email',
             'password' => 'nullable|string|min:8|max:32|confirmed',
-            'role' => 'required|in:1,2',
+            'role' => 'required|in:1,2,3',
         ]);
         // return var_dump($user->role);
         if ($validator->fails()) {
@@ -157,8 +172,6 @@ class UtilisateurController extends Controller
                 if ($user->id == Auth::user()->id) {
                     if($user->role == 'Super Administrateur'){
                         $user->role = 1;
-                    }elseif($user->role == 'Administrateur'){
-                        $user->role = 2;
                     }else{
                         $user->role = 3;
                     }
@@ -194,6 +207,9 @@ class UtilisateurController extends Controller
      */
     public function destroy($id)
     {
+        if(Auth::user()->role != 'Super Administrateur'){
+            return redirect()->route('utilisateur.user_error')->with('error','Vous ne disposez pas des autorisations nécessaires pour effectuer cette action');
+        }
         $user = User::find($id);
         if (!$user) {
             return redirect('404');
@@ -212,6 +228,9 @@ class UtilisateurController extends Controller
     }
 
     public function droit_acces(User $user){
+        if(Auth::user()->role != 'Super Administrateur'){
+            return redirect()->route('utilisateur.user_error')->with('error','Vous ne disposez pas des autorisations nécessaires pour effectuer cette action');
+        }
         $categorie = Categorie::find(1);
         
         try {

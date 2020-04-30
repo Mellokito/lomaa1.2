@@ -43,48 +43,70 @@
                                 <div class="m-widget17__items m-widget17__items-col1">
                                     <div class="m-widget17__item">
                                         <span class="m-widget17__icon">
-                                            <i class="flaticon-user m--font-brand"></i>
+                                            <i class="flaticon-map m--font-brand"></i>
                                         </span>
                                         <span class="m-widget17__subtitle">
                                             Categories
                                         </span>
                                         <span style="font-size: 1.85rem;" class="m-widget17__desc">
-                                            160 categories
+                                            @php
+                                                $categorie_articles = App\Categorie::all();
+                                                $categorie_evenements = App\Categorie_evenement::all();
+
+                                                $total_categories = $categorie_articles->count() + $categorie_evenements->count();
+                                            @endphp
+                                            {{ $total_categories }} categories
                                         </span>
                                     </div>
                                     <div class="m-widget17__item">
                                         <span class="m-widget17__icon">
-                                            <i class="flaticon-paper-plane m--font-info"></i>
+                                            <i class="flaticon-file-2 m--font-info"></i>
                                         </span>
                                         <span class="m-widget17__subtitle">
                                             Articles
                                         </span>
                                         <span style="font-size: 1.85rem;" class="m-widget17__desc">
-                                            72 articles
+                                            @php
+                                                $articles = App\Article::all();
+
+                                                $total_articles = $articles->count();
+                                            @endphp
+                                            {{ $total_articles }} articles
                                         </span>
                                     </div>
                                 </div>
                                 <div class="m-widget17__items m-widget17__items-col2">
                                     <div class="m-widget17__item">
                                         <span class="m-widget17__icon">
-                                            <i class="flaticon-pie-chart m--font-success"></i>
+                                            <i class="flaticon-photo-camera  m--font-success"></i>
                                         </span>
                                         <span class="m-widget17__subtitle">
                                             Medias
                                         </span>
                                         <span style="font-size: 1.85rem;" class="m-widget17__desc">
-                                            350 images et videos
+                                            @php
+                                                $image = App\Image::all();
+                                                $video = App\Video::all();
+
+                                                $total_media = $image->count() + $video->count();
+                                            @endphp
+                                            {{ $total_media }} images et videos
                                         </span>
                                     </div>
                                     <div class="m-widget17__item">
                                         <span class="m-widget17__icon">
-                                            <i class="flaticon-truck m--font-danger"></i>
+                                            <i class="flaticon-book m--font-danger"></i>
                                         </span>
                                         <span style="font-size: 1.85rem;" class="m-widget17__subtitle">
                                             Editions
                                         </span>
                                         <span style="font-size: 1.85rem;" class="m-widget17__desc">
-                                            280 editions
+                                            @php
+                                                $edition = App\Edition::all();
+
+                                                $total_edition = $edition->count();
+                                            @endphp
+                                            {{ $total_edition }} editions
                                         </span>
                                     </div>
                                 </div>

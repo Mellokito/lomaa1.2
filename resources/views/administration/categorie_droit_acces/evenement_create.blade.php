@@ -54,7 +54,7 @@
                             <div class="m-portlet__head-caption">
                                 <div class="m-portlet__head-title">
                                     <h3 class="m-portlet__head-text">
-                                        Nouveau Droit d'accès sur catégorie d'événements
+                                        Nouveau Droit d'accès sur catégorie d'événements pour : {{ $user->name }}
                                     </h3>
                                 </div>
                             </div>

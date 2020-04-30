@@ -9,6 +9,7 @@ use App\User;
 use Illuminate\Database\QueryException;
 use Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class Droit_accesController extends Controller
 {
@@ -25,6 +26,9 @@ class Droit_accesController extends Controller
      */
     public function index(User $user)
     {
+        if(Auth::user()->role != 'Super Administrateur'){
+            return redirect()->route('utilisateur.user_error')->with('error','Vous ne disposez pas des autorisations nécessaires pour effectuer cette action');
+        }
         $data['droit_acces_articles'] = $user->select('categorie_droit_acces.*','categories.*','categorie_droit_acces.created_at as date_creation','categorie_droit_acces.updated_at as date_modification')
             ->join('categorie_droit_acces', 'categorie_droit_acces.user_id', '=', 'users.id')
             ->join('categories', 'categories.id', '=', 'categorie_droit_acces.categorie_id')
@@ -49,6 +53,9 @@ class Droit_accesController extends Controller
      */
     public function article_create(User $user)
     {
+        if(Auth::user()->role != 'Super Administrateur'){
+            return redirect()->route('utilisateur.user_error')->with('error','Vous ne disposez pas des autorisations nécessaires pour effectuer cette action');
+        }
         $categorie_droit_acces = Categorie::select('categories.*','categorie_droit_acces.*')
                 ->join('categorie_droit_acces','categorie_droit_acces.categorie_id','categories.id')
                 ->where('categorie_droit_acces.user_id',$user->id)
@@ -68,6 +75,9 @@ class Droit_accesController extends Controller
 
     public function evenement_create(User $user)
     {   
+        if(Auth::user()->role != 'Super Administrateur'){
+            return redirect()->route('utilisateur.user_error')->with('error','Vous ne disposez pas des autorisations nécessaires pour effectuer cette action');
+        }
         $categorie_droit_acces = Categorie_evenement::select('categorie_evenements.*','categorie_evenement_droit_acces.*')
                 ->join('categorie_evenement_droit_acces','categorie_evenement_droit_acces.categorie_id','categorie_evenements.id')
                 ->where('categorie_evenement_droit_acces.user_id',$user->id)
@@ -92,6 +102,9 @@ class Droit_accesController extends Controller
      */
     public function article_store(Request $request,User $user)
     {
+        if(Auth::user()->role != 'Super Administrateur'){
+            return redirect()->route('utilisateur.user_error')->with('error','Vous ne disposez pas des autorisations nécessaires pour effectuer cette action');
+        }
         $validator = Validator::make($request->all(), [
             'article_categorie' => 'required|array|min:1',
         ]);
@@ -115,6 +128,9 @@ class Droit_accesController extends Controller
 
     public function evenement_store(Request $request,User $user)
     {
+        if(Auth::user()->role != 'Super Administrateur'){
+            return redirect()->route('utilisateur.user_error')->with('error','Vous ne disposez pas des autorisations nécessaires pour effectuer cette action');
+        }
         $validator = Validator::make($request->all(), [
             'evenement_categorie' => 'required|array|min:1',
         ]);
@@ -138,6 +154,9 @@ class Droit_accesController extends Controller
     }
 
     public function edition_media_store(Request $request,User $user){
+        if(Auth::user()->role != 'Super Administrateur'){
+            return redirect()->route('utilisateur.user_error')->with('error','Vous ne disposez pas des autorisations nécessaires pour effectuer cette action');
+        }
         
         if ($request->isMethod('put')) {
     
@@ -171,6 +190,9 @@ class Droit_accesController extends Controller
     
     public function article_destroy(User $user,Categorie $categorie)
     {
+        if(Auth::user()->role != 'Super Administrateur'){
+            return redirect()->route('utilisateur.user_error')->with('error','Vous ne disposez pas des autorisations nécessaires pour effectuer cette action');
+        }
         $user->droit_acces()->detach($categorie->id);
 
         return redirect()->route('categorie_droit_acces.index',$user->id)->with('success', 'Suppression effectuée');
@@ -178,6 +200,9 @@ class Droit_accesController extends Controller
 
     public function evenement_destroy(User $user,Categorie_evenement $categorie)
     {
+        if(Auth::user()->role != 'Super Administrateur'){
+            return redirect()->route('utilisateur.user_error')->with('error','Vous ne disposez pas des autorisations nécessaires pour effectuer cette action');
+        }
         $user->droit_acces_evenement()->detach($categorie->id);
 
         return redirect()->route('categorie_droit_acces.index',$user->id)->with('success', 'Suppression effectuée');

@@ -82,6 +82,7 @@
                 </div>
             </div>
             <div class="m-portlet__body">
+                <span style="font-size:18px; padding: 10px;" class="badge badge-primary">{{ $article->categorie->nom }}</span>
                 <!--begin: Form Body -->
                 <div class="m-portlet__body">
                     <div class="text-center">
