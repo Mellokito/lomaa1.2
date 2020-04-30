@@ -19,12 +19,12 @@ class EmailController extends Controller
         // $message->from(‘SENDER_EMAIL_ADDRESS’,’Test Mail’);
         // });
 
-            $details =[
+            $details = [
                 'title' => 'Titre du mail',
                 'body' => 'Body du mail'
             ];
 
             \Mail::to('staardus2t@gmail.com')->send(new SendMail($details));
-            return redirect()->back();
+            return view('site.index');
     }
 }
