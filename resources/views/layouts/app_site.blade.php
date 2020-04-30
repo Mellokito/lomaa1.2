@@ -203,11 +203,12 @@
                         </div><!-- end section-heading -->
                         <div class="newsletter-form">
                             <div class="form-shared">
-                                <form action="#">
+                                <form action="{{ route('site.ajouter_contact') }}" method="POST">
+                                    @csrf
                                     <div class="row">
                                         <div class="col-lg-9">
                                             <div class="form-group">
-                                                <input type="email" class="form-control" placeholder="البريد الاكتروني">
+                                                <input name="email" type="email" class="form-control" placeholder="البريد الاكتروني">
                                             </div>
                                         </div>
                                         <div class="col-lg-3">

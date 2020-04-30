@@ -117,6 +117,10 @@ Route::prefix('administration')->group(function () {
 
     Route::resource('utilisateur', 'administration\UtilisateurController');
     Route::post('utilisateur/droit_acces/{user}', 'administration\UtilisateurController@droit_acces')->name('utilisateur.droit_acces');
+
+
+    Route::get('contacts', 'administration\ContactController@index')->name('contact.index');
+    Route::delete('contact/{contact}', 'administration\ContactController@destroy')->name('contact.destroy');
 });
 
 // Site Frontend
@@ -132,6 +136,9 @@ Route::get('articles','site\ArticleController@article_all')->name('site.article_
 //Commentaire
 Route::post('commentaire/{article}', 'site\CommentaireController@ajouter_commentaire')->name('site.ajouter_commentaire');
 
+//Contact
+Route::post('contact', 'site\ContactController@ajouter_contact')->name('site.ajouter_contact');
+
 
  //Evenement
  Route::get('evenements/{slug}','site\EvenementController@evenement_categorie')->name('site.evenement_categorie');
@@ -146,4 +153,6 @@ Route::get('editions','site\EditionController@edition_all')->name('site.edition_
 
 Route::get('about','site\IndexController@about')->name('site.about');
 
+// Send mail
+Route::get('mail','site\EmailController@send_mail')->name('site.mail');
 

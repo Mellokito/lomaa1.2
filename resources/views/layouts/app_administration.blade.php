@@ -45,6 +45,9 @@
 	<!--RTL version:<link href="{{ asset('assets/vendors/custom/fullcalendar/fullcalendar.bundle.rtl.css')}}" rel="stylesheet" type="text/css" />-->
 	<link href="{{ asset('assets/vendors/custom/datatables/datatables.bundle.css')}} " rel="stylesheet" type="text/css" />
 
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css">
+	
+
 	<!--RTL version:<link href="{{ asset('assets/vendors/custom/datatables/datatables.bundle.rtl.css') }}" rel="stylesheet" type="text/css" />-->
 
 	<!--end::Page Vendors Styles -->
@@ -748,6 +751,27 @@
 							</div>
 
 						</li>
+
+						<li id="contact" class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
+							<a href="javascript:;" class="m-menu__link m-menu__toggle">
+								<i class="m-menu__link-icon flaticon-user-ok"></i>
+								<span class="m-menu__link-text  menuu">Adresses E-mail</span>
+								<i class="m-menu__ver-arrow la la-angle-right"></i>
+							</a>
+							<div class="m-menu__submenu "> 
+								<span class="m-menu__arrow"></span>
+								<ul class="m-menu__subnav">
+									<li id="index_contact" class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
+										<a href="{{ route('contact.index') }}" class="m-menu__link m-menu__toggle">
+											<i class="m-menu__link-bullet m-menu__link-bullet--dot">
+											<span></span></i>
+											<span class="m-menu__link-text">Liste des adresse E-mail</span><i class=""></i>
+										</a>
+									</li>
+								</ul>
+							</div>
+
+						</li>
 						@endif
 
 						{{-- Changer mot de passe --}}
@@ -893,6 +917,16 @@
 	<script src="{{ asset('assets/demo/default/custom/crud/forms/widgets/bootstrap-timepicker.js') }}" type="text/javascript"></script>
 	<script src="{{ asset('assets/demo/default/custom/crud/forms/widgets/bootstrap-select.js') }}" type="text/javascript"></script>
 	<script src="{{ asset('assets/vendors/custom/datatables/datatables.bundle.js')}} " type="text/javascript"></script>
+
+	<script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.flash.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+	<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js"></script>
+
+
 
 	{{-- ckeditor --}}
 	<script src="{{ asset('assets/app/js/ckeditor/ckeditor.js') }}"></script>
