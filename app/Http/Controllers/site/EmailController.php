@@ -40,13 +40,15 @@ class EmailController extends Controller
 
         if ($request->isMethod('post')) {
             $details = [
-                'title' => 'Titre du mail',
-                'body' => 'Body du mail'
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'message' => $request->message,
             ];
 
           
-            \Mail::to('staardus2t@gmail.test.co')->send(new SendMail($details));
-            return view('site.index');
+            \Mail::to('staardus2t@gmail.com')->send(new SendMail($details));
+            return view('site.contact');
         }
     }
 }

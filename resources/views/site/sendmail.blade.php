@@ -7,8 +7,9 @@
     <title>Document</title>
 </head>
 <body>
-<h1>{{ $details['title'] }}</h1>
-<p>{{ $details['body'] }}</p>
-<p>thank you</p>
+    <p>Nom : <strong>{{ $details['name'] }} </strong></p>
+    <p>Numéro téléphone : <strong>{{ $details['phone'] }} </strong></p>
+    <p>E-mail : <strong>{{ $details['email'] }} </strong></p>
+    <p>Message : <strong>{{ $details['message'] }} </strong></p>
 </body>
 </html>
