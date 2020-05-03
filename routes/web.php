@@ -123,6 +123,11 @@ Route::prefix('administration')->group(function () {
     Route::delete('contact/{contact}', 'administration\ContactController@destroy')->name('contact.destroy');
 });
 
+//********************************************************************************************************************************************************* */
+//********************************************************************************************************************************************************* */
+//********************************************************************************************************************************************************* */
+//********************************************************************************************************************************************************* */
+
 // Site Frontend
 
 //Index
@@ -136,8 +141,8 @@ Route::get('articles','site\ArticleController@article_all')->name('site.article_
 //Commentaire
 Route::post('commentaire/{article}', 'site\CommentaireController@ajouter_commentaire')->name('site.ajouter_commentaire');
 
-//Contact
-Route::post('contact', 'site\ContactController@ajouter_contact')->name('site.ajouter_contact');
+//Newsletter emails
+Route::post('newsletter', 'site\ContactController@ajouter_contact')->name('site.ajouter_contact');
 
 
  //Evenement
@@ -153,6 +158,11 @@ Route::get('editions','site\EditionController@edition_all')->name('site.edition_
 
 Route::get('about','site\IndexController@about')->name('site.about');
 
+
+// Show mail view
+Route::get('contact','site\EmailController@contact')->name('site.contact');
 // Send mail
-Route::get('mail','site\EmailController@send_mail')->name('site.mail');
+Route::post('mail','site\EmailController@send_mail')->name('site.mail');
+
+
 

@@ -477,8 +477,8 @@
                 <div class="col-lg-8 mx-auto">
                     <div class="cta-item">
                         <h3 class="cta__title">تواصل معنا</h3>
-                        <p class="cta__desc">شاركنا رؤيك</p>
-                        <a href="contact.html" class="theme-btn">أرسل رسالة</a>
+                        <p class="cta__desc">شاركنا رأيك</p>
+                        <a href="{{ route('site.contact') }}" class="theme-btn">أرسل رسالة</a>
                     </div><!-- end cta-item -->
                 </div><!-- end col-lg-8 -->
             </div><!-- end row -->
