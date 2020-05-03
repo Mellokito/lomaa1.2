@@ -30,6 +30,7 @@ class SendMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Mail from LOMAA user')->view('site.sendmail');
+    
+        return $this->subject('Message de : '.$this->details['name'])->markdown('site.sendmail');
     }
 }

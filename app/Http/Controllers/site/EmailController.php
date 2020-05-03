@@ -5,6 +5,7 @@ namespace App\Http\Controllers\site;
 use App\Http\Controllers\Controller;
 use App\Mail\SendMail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Validator;
 
 class EmailController extends Controller
@@ -47,8 +48,8 @@ class EmailController extends Controller
             ];
 
           
-            \Mail::to('staardus2t@gmail.com')->send(new SendMail($details));
-            return view('site.contact');
+            Mail::to('contact@lomaa.ma')->send(new SendMail($details));
+            return redirect('contact');
         }
     }
 }

@@ -43,22 +43,22 @@ END BREADCRUMB AREA
                         <div class="row">
                             <div class="col-lg-6 col-sm-6 form-group">
                                 <input class="form-control text-right" type="text" name="name"
-                                    placeholder="الأسم كامل">
+                            placeholder="الأسم كامل" value="{{ old('name') }}">
                             </div><!-- end col-md-12 -->
 
                             <div class="col-lg-6 col-sm-6 form-group">
                                 <input class="form-control text-right" type="email" name="email"
-                                    placeholder="البريد الالكتروني">
+                            placeholder="البريد الالكتروني" value="{{ old('email') }}">
                             </div><!-- end col-md-12 -->
 
                             <div class="col-lg-12 form-group">
                                 <input class="form-control text-right" type="number" name="phone"
-                                    placeholder="رقم الهاتف">
+                            placeholder="رقم الهاتف" value="{{ old('phone') }}">
                             </div><!-- end col-md-12 -->
 
                             <div class="col-lg-12 col-sm-12 form-group">
                                 <textarea class="textarea text-right" name="message"
-                                    placeholder="الرسالة"></textarea>
+                            placeholder="الرسالة">{{ old('message') }}</textarea>
                             </div><!-- end col-md-12 -->
 
                             <div class="col-lg-3 col-sm-6 ml-auto">

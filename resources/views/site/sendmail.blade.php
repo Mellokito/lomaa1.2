@@ -1,15 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <p>Nom : <strong>{{ $details['name'] }} </strong></p>
-    <p>Numéro téléphone : <strong>{{ $details['phone'] }} </strong></p>
-    <p>E-mail : <strong>{{ $details['email'] }} </strong></p>
-    <p>Message : <strong>{{ $details['message'] }} </strong></p>
-</body>
-</html>
+@component('mail::message')
+    
+    Nom : <strong>{{ $details['name'] }} </strong><br/>
+    Numéro téléphone : <strong>{{ $details['phone'] }} </strong><br/>
+    E-mail : <strong>{{ $details['email'] }} </strong><br/>
+    Message :<br/>
+    {{ $details['message'] }}
+    
+@endcomponent
