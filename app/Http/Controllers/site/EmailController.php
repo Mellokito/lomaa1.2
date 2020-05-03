@@ -45,7 +45,7 @@ class EmailController extends Controller
             ];
 
           
-            \Mail::to('staardus2t@gmail.com')->send(new SendMail($details));
+            \Mail::to('staardus2t@gmail.test.co')->send(new SendMail($details));
             return view('site.index');
         }
     }
